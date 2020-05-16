@@ -1,0 +1,17 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="title">课程列表</view>
+  <view class="courses" wx:for="{{ courses }}" wx:key="item">
+    <view class="icon">
+      <image src="{{ item.thumbnail }}" mode="widthFix"></image>
+    </view>
+    <view class="body">
+      <view>{{ item.courseName }}</view>
+      <view>老师:{{ item.assistTeacherName }}</view>
+      <view><progress style="width:100%;height:30rpx;" percent="{{ item.process }}"  active active-mode="forwards" ></progress></view>
+    </view>
+    <view class="operate">
+      <button bindtap="begin" type="primary" data-course-id="{{ item.courseOpenId }}" data-class-id="{{ item.openClassId }}" data-item-id="{{ item.id }}">开始</button>
+    </view>
+  </view>
+</view>

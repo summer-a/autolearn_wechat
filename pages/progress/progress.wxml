@@ -1,0 +1,18 @@
+<!--pages/progress/progress.wxml-->
+<view class="container">
+  <view class="cousre-info">
+    <view class="thumbnail">
+      <image src="{{ course.thumbnail }}" mode="widthFix"></image>
+    </view>
+    <view class="info">
+      <view>{{ course.courseName }}</view>
+      <view>教师：{{ course.assistTeacherName }}</view>
+      <view>进度：{{ course.process }}%</view>
+    </view>
+  </view>
+  <view class="operate">
+    <progress percent="{{ course.process }}" active active-mode="forwards" ></progress>
+    <button bindtap="cancel" type="warn">取消任务</button>
+    <button bindtap="logout">退出登录</button>
+  </view>
+</view>
