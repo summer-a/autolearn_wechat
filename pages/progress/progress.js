@@ -1,23 +1,32 @@
 // pages/progress/progress.js
-import { config } from '../../utils/config.js'
 const app = getApp();
+var api = app.globalData.api
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    course: null
+    course: null,
+    flashStateInterval: null,
+    currCourse: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '载入中...',
+    })
     
-    this.req()
-    var interval = setInterval(this.req, 10 * 1000)
+    let that = this;
 
+    that.req()
+    // 循环获取
+    that.flashStateInterval = setInterval(() => {
+      that.req();
+    }, 10 * 1000)
   },
 
   /**
@@ -31,21 +40,26 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    // 重新获取状态
+    //this.onLoad()
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+    console.log('pro hide')
+    // clearInterval(this.flashStateInterval);
+    // this.flashStateInterval = null;
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    console.log('pro hide')
+    clearInterval(this.flashStateInterval);
+    this.flashStateInterval = null;
   },
 
   /**
@@ -69,14 +83,15 @@ Page({
 
   },
   cancel: function() {
+    clearInterval(this.flashStateInterval);
+    this.flashStateInterval = null;
     var user = wx.getStorageSync('user')
     wx.request({
-      url: config.api + 'cancel',
+      url: api + 'cancel',
       data: {
         userId: user.user.userId
       },
       success: function (data) {
-        console.log(data)
         var d = data.data;
         if (d.code === 200 && d.data === true) {
           wx.showToast({
@@ -93,6 +108,8 @@ Page({
     })
   },
   logout: function() {
+    clearInterval(this.flashStateInterval);
+    this.flashStateInterval = null;
     wx.clearStorageSync('user')
     wx.clearStorageSync('courseId')
     wx.redirectTo({
@@ -105,14 +122,41 @@ Page({
     var courseId = wx.getStorageSync('courseId');
 
     var that = this;
+    
     wx.request({
-      url: config.api + 'course',
+      url: api + "state/task",
+      data: { id: user.user.userId },
+      success: (data) => {
+        var d = data.data
+        if (d != null && d != "" && d != undefined) {
+          that.setData({ currCourse: d })
+        } else {
+          clearInterval(that.flashStateInterval);
+          that.flashStateInterval = null;
+
+          wx.showToast({
+            title: '获取状态失败',
+            icon: 'none',
+            duration: 2000,
+            success: function () {
+              wx.redirectTo({
+                url: '../index/index',
+              })
+              return;
+            }
+          })
+          return;
+        }
+      }
+    })
+
+    wx.request({
+      url: api + 'course',
       data: {
         id: courseId,
         cookie: user.cookie
       },
       success: function (data) {
-        console.log(data.data)
         var d = data.data;
         if (d) {
           if (d.process == 100) {
@@ -128,8 +172,13 @@ Page({
             })
           }
           that.setData({ course: d })
+          wx.hideLoading()
         }
       }
     })
-  }
+  },
+  onPullDownRefresh: function () {
+    this.onLoad()
+    wx.stopPullDownRefresh()
+  },
 })

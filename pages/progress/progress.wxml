@@ -1,17 +1,26 @@
 <!--pages/progress/progress.wxml-->
 <view class="container">
+  <view class="title" wx:if="{{ currCourse.state == 'START' }}" style="background-color:#1aad19;">任务运行中</view>
+  <view class="title" wx:if="{{ currCourse.state == 'QUEUE' }}" style="background-color:#3385ff;">排队中...</view>
+  <view class="title" wx:if="{{ currCourse.state == 'STOP' }}" style="background-color:#3385ff;">已停止</view>
   <view class="cousre-info">
     <view class="thumbnail">
       <image src="{{ course.thumbnail }}" mode="widthFix"></image>
     </view>
     <view class="info">
-      <view>{{ course.courseName }}</view>
-      <view>教师：{{ course.assistTeacherName }}</view>
-      <view>进度：{{ course.process }}%</view>
+      <view class="info-title">{{ course.courseName }}</view>
+      <view class="text">教师：{{ course.assistTeacherName }}</view>
+      <view class="text">进度：{{ course.process }}%</view>
+      <view class="text">学期：{{ course.termName }}</view>
     </view>
   </view>
+  <view class="now-course">
+    <view class="course-name">当前{{ currCourse.course.categoryName }}：{{ currCourse.course.cellName == null ? '准备中...' : currCourse.course.cellName }} </view>
+    <progress class="curr-course-percent" percent="{{ currCourse.percent }}" active active-mode="forwards" stroke-width="8" activeColor="#1E90FF" border-radius="3"></progress>
+  </view>
   <view class="operate">
-    <progress percent="{{ course.process }}" active active-mode="forwards" ></progress>
+    <view class="all-percent-text">总进度</view>
+    <progress percent="{{ course.process }}" active active-mode="forwards" stroke-width="20" border-radius="5"></progress>
     <button bindtap="cancel" type="warn">取消任务</button>
     <button bindtap="logout">退出登录</button>
   </view>

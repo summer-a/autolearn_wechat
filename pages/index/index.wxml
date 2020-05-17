@@ -1,6 +1,10 @@
 <!--index.wxml-->
 <view class="container">
   <view class="title">课程列表</view>
+  <view class="info">
+    <view wx:if="{{ info.workThread < info.corePoolSize }}" style="background-color:#1aad19;">当前空闲通道： {{ info.corePoolSize - info.workThread }}</view>
+    <view wx:if="{{ info.workThread >= info.corePoolSize }}" style="background-color:#3385ff;">当前无空闲通道，需排队。排队人数：{{ info.workQueue }}</view>
+  </view>
   <view class="courses" wx:for="{{ courses }}" wx:key="item">
     <view class="icon">
       <image src="{{ item.thumbnail }}" mode="widthFix"></image>
@@ -11,7 +15,8 @@
       <view><progress style="width:100%;height:30rpx;" percent="{{ item.process }}"  active active-mode="forwards" ></progress></view>
     </view>
     <view class="operate">
-      <button bindtap="begin" type="primary" data-course-id="{{ item.courseOpenId }}" data-class-id="{{ item.openClassId }}" data-item-id="{{ item.id }}">开始</button>
+      <button bindtap="begin" type="primary" data-course-id="{{ item.courseOpenId }}" data-class-id="{{ item.openClassId }}" data-item-id="{{ item.id }}" disabled="{{ disableBursh }}">开始</button>
     </view>
   </view>
+  <button class="logout" type="warn" bindtap="logout">退出登录</button>
 </view>

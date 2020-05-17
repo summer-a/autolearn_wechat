@@ -1,27 +1,33 @@
 //index.js
 //获取应用实例
-import { config } from '../../utils/config.js'
 const app = getApp()
+var api = app.globalData.api
 
 Page({
   data: {
-    courses: []
+    courses: [],
+    info: null,
+    disableBursh: false
   },
   onLoad: function (options) {
     console.log('load')
 
     var that = this;
     var user = wx.getStorageSync('user')
-
+    if (user == null || user == "" || user == undefined) {
+      wx.redirectTo({
+        url: '../login/login',
+      })
+    }
+    
     // 判断是否已经有任务在进行
     wx.request({
-      url: config.api + "has/task",
+      url: api + "state/task",
       data: {id: user.user.userId},
       success: function(data) {
-        console.log('载入')
-        console.log(data.data)
-        if (data.data != null && data.data != "") {
-          wx.setStorageSync('courseId', data.data)
+        var d = data.data
+        if (d != null && d != "" && d != undefined) {
+          wx.setStorageSync('courseId', d.courseId)
           wx.redirectTo({
             url: '../progress/progress',
           })
@@ -31,12 +37,20 @@ Page({
 
     if (user && user.cookie) {
       // 线程池信息
+      var that = this;
       wx.request({
-        url: '',
+        url: api + "/threadpool/info",
+        success: function(data) {
+          console.log(data)
+          var d = data.data
+          if (d) {
+            that.setData({info: d})
+          }
+        }
       })
       // 课程列表
       wx.request({
-        url: config.api + "course/list",
+        url: api + "course/list",
         data: { user: user.user, cookie: user.cookie },
         header: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -44,6 +58,8 @@ Page({
         success: function (data) {
           // console.log(data.data.courseList)
           that.setData({ courses: data.data.courseList })
+        }, fail: function (data) {
+          console.log(data)
         }
       })
     } else {
@@ -56,9 +72,9 @@ Page({
     var dataset = e.currentTarget.dataset;
     var user = wx.getStorageSync('user');
     var that = this;
-    if (user && user.cookie) {
+    if (user && user != null && user.cookie && user.cookie != null) {
       wx.request({
-        url: config.api + "start",
+        url: api + "start",
         data: {
           user: user.user, 
           cookie: user.cookie,
@@ -68,13 +84,33 @@ Page({
         },
         method: 'get',
         success: function(data) {
-          console.log('课程选择')
           console.log(data)
-          wx.setStorageSync('courseId', dataset.itemId)
-          // 刷新页面
-          that.onLoad()
+          // 判断请求是否被拒绝
+          var d = data.data;
+          if (d.code === 403) {
+            wx.showToast({
+              title: d.msg,
+              icon: 'none'
+            })
+          } else {
+            wx.setStorageSync('courseId', dataset.itemId)
+            // 刷新页面
+            that.onLoad()
+          }
+          
         }
       })
     }
-  }
+  },
+  onPullDownRefresh: function () {
+    this.onLoad()
+    wx.stopPullDownRefresh()
+  },
+  logout: function () {
+    wx.clearStorageSync('user')
+    wx.clearStorageSync('courseId')
+    wx.redirectTo({
+      url: '../login/login',
+    })
+  },
 })

@@ -1,6 +1,6 @@
 // pages/login/login.js
-import {config} from '../../utils/config.js'
 var app = getApp();
+var api = app.globalData.api
 Page({
 
   /**
@@ -41,21 +41,21 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    console.log('hide')
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    console.log('unload')
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    
   },
 
   /**
@@ -75,14 +75,22 @@ Page({
    * 表单提交
    */
   formSubmit: function(e) {
+    var form = e.detail.value;
+    if (form.username == "" || form.password == "") {
+      wx.showToast({
+        title: '用户名和密码不能为空',
+        icon: 'none',
+      })
+      return ;
+    }
     wx.showLoading({
       title: '登录中……',
       mask: true
     })
-    var form = e.detail.value;
+    
     var that = this;
     wx.request({
-      url: config.api + 'login',
+      url: api + 'login',
       data: {
         username: form.username,
         password: form.password

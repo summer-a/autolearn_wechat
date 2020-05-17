@@ -2,8 +2,8 @@
   
   <form catchsubmit="formSubmit" class="form">
     <view class="title">请使用职教云账号登录</view>
-    <input class="username" name="username" placeholder="请输入用户名"></input>
-    <input  name="password" type="password" placeholder="请输入密码"></input>
+    <input class="username" name="username" placeholder="请输入账号" type="number" maxlength="10" ></input>
+    <input  name="password" type="password" placeholder="请输入密码" maxlength="25"></input>
     <button class="login" type="primary" form-type="submit">登录</button>
   </form>
 </view>

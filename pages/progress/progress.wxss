@@ -24,15 +24,52 @@
   height: 235rpx;
 }
 .info {
+  width: 390rpx;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   padding-left: 10rpx;
+  box-sizing: border-box;
 }
 .operate{
   width: 100%;
-  margin: 20rpx 0;
+  margin-bottom: 20rpx;
 }
 .operate progress{
   margin-bottom: 20rpx;
+}
+.all-percent-text{
+  font-size: 30rpx;
+  text-indent: 10rpx;
+  color: #222;
+}
+.course-name{
+  font-size: 30rpx;
+  text-indent: 10rpx;
+  color: #888;
+}
+.title {
+  width: 100%;
+  background: #0F0;
+  text-align: center;
+  font-size: 40rpx;
+  font-family: '微软雅黑';
+  color: #FFF;
+  margin: 30rpx auto;
+}
+.now-course{
+  width: 100%;
+  padding: 30rpx 0;
+  margin: 50rpx 0 0;
+  border-top: 2rpx solid gray;
+}
+
+.info .text{
+  color: #333;
+}
+.info-title{
+  margin:0 20rpx;
+  text-align:center;
+  border-left:2rpx solid #1E90FF;
+  border-right:2rpx solid #1E90FF;
 }
