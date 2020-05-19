@@ -134,9 +134,9 @@ Page({
               icon: 'success',
               duration: 5000,
               complete: function () {
-                wx.redirectTo({
-                  url: '../index/index',
-                })
+
+                // 刷课完调用取消任务操作
+                that.cancel();
               }
             })
           } else if (res == null || res == "") {
