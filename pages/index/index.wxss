@@ -64,3 +64,9 @@
 .logout{
   margin-bottom: 20rpx;
 }
+.qq {
+  font-size: 23rpx;
+  color: #333;
+  width: 100%;
+  text-align: center;
+}

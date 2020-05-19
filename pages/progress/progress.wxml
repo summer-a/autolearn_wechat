@@ -10,12 +10,12 @@
     <view class="info">
       <view class="info-title">{{ course.courseName }}</view>
       <view class="text">教师：{{ course.assistTeacherName }}</view>
-      <view class="text">进度：{{ course.process }}%</view>
+      <view class="text">进度：{{ course.process == undefined ? '' : (course.process + '%')}}</view>
       <view class="text">学期：{{ course.termName }}</view>
     </view>
   </view>
   <view class="now-course">
-    <view class="course-name">当前{{ currCourse.course.categoryName }}：{{ currCourse.course.cellName == null ? '准备中...' : currCourse.course.cellName }} </view>
+    <view class="course-name">当前>={{ currCourse.course.categoryName }}：{{ currCourse.course.cellName == null ? '准备中...' : currCourse.course.cellName }} </view>
     <progress class="curr-course-percent" percent="{{ currCourse.percent }}" active active-mode="forwards" stroke-width="8" activeColor="#1E90FF" border-radius="3"></progress>
   </view>
   <view class="operate">

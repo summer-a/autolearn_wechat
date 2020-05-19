@@ -1,6 +1,6 @@
 // pages/login/login.js
+import service from '../../api/api.js'
 var app = getApp();
-var api = app.globalData.api
 Page({
 
   /**
@@ -20,9 +20,8 @@ Page({
         duration: 2000
       })
     }
-
+ 
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -81,51 +80,38 @@ Page({
         title: '用户名和密码不能为空',
         icon: 'none',
       })
-      return ;
-    }
-    wx.showLoading({
-      title: '登录中……',
-      mask: true
-    })
-    
-    var that = this;
-    wx.request({
-      url: api + 'login',
-      data: {
-        username: form.username,
-        password: form.password
-      },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      method: 'post',
-      success: function (data) {
-        var data = data.data;
-        if (data.data && data.code == 200) {
+    } else {
+      wx.showLoading({
+        title: '登录中……',
+        mask: true
+      })
+      var that = this;
+      service.login(form.username, form.password).then(res => {
+        console.log(res)
+        if (res.data && res.code == 200) {
           console.log('登录成功')
           // 存储cookie
-          wx.setStorageSync('user', data.data)
+          wx.setStorageSync('user', res.data)
           // 跳转到主页
           wx.redirectTo({
             url: '../index/index',
           })
         } else {
+          wx.hideLoading()
           wx.showToast({
-            title: '登录失败',
+            title: '登录失败,请检查账号和密码是否正确',
             icon: 'none'
           })
         }
-      },
-      fail: function() {
+      }).catch(rec => {
+        wx.hideLoading()
         wx.showToast({
           title: '登录失败',
           icon: 'none'
         })
-      },
-      complete: function() {
-        wx.hideLoading();
-      }
-    })
+      }).finally(() => {
+        
+      })
+    }
   },
-  
 })

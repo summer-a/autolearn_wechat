@@ -1,6 +1,5 @@
-// pages/progress/progress.js
+import service from '../../api/api.js'
 const app = getApp();
-var api = app.globalData.api
 Page({
 
   /**
@@ -16,17 +15,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.showLoading({
-      title: '载入中...',
-    })
     
-    let that = this;
-
-    that.req()
-    // 循环获取
-    that.flashStateInterval = setInterval(() => {
-      that.req();
-    }, 10 * 1000)
   },
 
   /**
@@ -40,8 +29,17 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // 重新获取状态
-    //this.onLoad()
+    wx.showLoading({
+      title: '载入中...',
+    })
+
+    let that = this;
+
+    that.req()
+    // 循环获取
+    that.flashStateInterval = setInterval(() => {
+      that.req();
+    }, 10 * 1000)
   },
 
   /**
@@ -49,8 +47,9 @@ Page({
    */
   onHide: function () {
     console.log('pro hide')
-    // clearInterval(this.flashStateInterval);
-    // this.flashStateInterval = null;
+    wx.hideLoading()
+    clearInterval(this.flashStateInterval);
+    this.flashStateInterval = null;
   },
 
   /**
@@ -58,6 +57,7 @@ Page({
    */
   onUnload: function () {
     console.log('pro hide')
+    wx.hideLoading()
     clearInterval(this.flashStateInterval);
     this.flashStateInterval = null;
   },
@@ -66,7 +66,11 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    // 先清除定时器再刷新
+    clearInterval(this.flashStateInterval);
+    this.flashStateInterval = null;
+    // 刷新
+    this.onShow()
   },
 
   /**
@@ -82,30 +86,26 @@ Page({
   onShareAppMessage: function () {
 
   },
+  /**
+   * 用于点击取消任务
+   */
   cancel: function() {
     clearInterval(this.flashStateInterval);
     this.flashStateInterval = null;
     var user = wx.getStorageSync('user')
-    wx.request({
-      url: api + 'cancel',
-      data: {
-        userId: user.user.userId
-      },
-      success: function (data) {
-        var d = data.data;
-        if (d.code === 200 && d.data === true) {
-          wx.showToast({
-            title: d.msg,
-            duration: 2000,
-            success: function() {
-              wx.redirectTo({
-                url: '../index/index',
-              })
-            }
-          })
-        }
-      }
-    })
+    if (user != null && user != "") {
+      service.cancel(user.user.userId).then(res => {
+        wx.showToast({
+          title: (res.msg == undefined || res.msg == "") ? "已被取消" : res.msg,
+          duration: 2000,
+          success: function () {
+            wx.redirectTo({
+              url: '../index/index',
+            })
+          }
+        })
+      })
+    }
   },
   logout: function() {
     clearInterval(this.flashStateInterval);
@@ -122,63 +122,48 @@ Page({
     var courseId = wx.getStorageSync('courseId');
 
     var that = this;
-    
-    wx.request({
-      url: api + "state/task",
-      data: { id: user.user.userId },
-      success: (data) => {
-        var d = data.data
-        if (d != null && d != "" && d != undefined) {
-          that.setData({ currCourse: d })
-        } else {
-          clearInterval(that.flashStateInterval);
-          that.flashStateInterval = null;
+    service.taskState(user.user.userId).then(res => {
+      if (res != null && res != "") {
+        that.setData({ currCourse: res })
 
-          wx.showToast({
-            title: '获取状态失败',
-            icon: 'none',
-            duration: 2000,
-            success: function () {
-              wx.redirectTo({
-                url: '../index/index',
-              })
-              return;
-            }
-          })
-          return;
-        }
-      }
-    })
-
-    wx.request({
-      url: api + 'course',
-      data: {
-        id: courseId,
-        cookie: user.cookie
-      },
-      success: function (data) {
-        var d = data.data;
-        if (d) {
-          if (d.process == 100) {
+        // 获取课程进度
+        service.course(courseId, user.cookie).then(res => {
+          if (res && res.process == 100) {
             wx.showToast({
               title: '刷课完成',
               icon: 'success',
               duration: 5000,
-              success: function() {
+              complete: function () {
                 wx.redirectTo({
                   url: '../index/index',
                 })
               }
             })
+          } else if (res == null || res == "") {
+            wx.redirectTo({
+              url: '../login/login',
+            })
           }
-          that.setData({ course: d })
+          that.setData({ course: res })
+        }).finally(res => {
           wx.hideLoading()
-        }
+          wx.stopPullDownRefresh()
+        })
+      } else {
+        clearInterval(that.flashStateInterval);
+        that.flashStateInterval = null;
+
+        wx.showToast({
+          title: '获取状态失败',
+          icon: 'none',
+          duration: 2000,
+          complete: function () {
+            wx.redirectTo({
+              url: '../index/index',
+            })
+          }
+        })
       }
     })
-  },
-  onPullDownRefresh: function () {
-    this.onLoad()
-    wx.stopPullDownRefresh()
-  },
+  }
 })
