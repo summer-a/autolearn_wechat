@@ -1,7 +1,8 @@
 <!--index.wxml-->
 <view class="container">
+  <view wx:if="{{ notice != null }}" class="notice" style=""> {{ notice }} </view>
   <view class="title">课程列表</view>
-  <view class="qq">问题反馈QQ群:{{ qq }}</view>
+  <view class="qq">QQ群:{{ qq }}</view>
   <view class="info">
     <view wx:if="{{ info.workThread < info.corePoolSize }}" style="background-color:#1aad19;">当前空闲通道(下拉刷新)： {{ info.corePoolSize - info.workThread }}</view>
     <view wx:if="{{ info.workThread >= info.corePoolSize }}" style="background-color:#3385ff;">当前排队人数(下拉刷新)：{{ info.workQueue }}</view>

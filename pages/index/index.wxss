@@ -70,3 +70,7 @@
   width: 100%;
   text-align: center;
 }
+.notice{
+  position: relative;
+  margin-bottom: 30rpx;
+}

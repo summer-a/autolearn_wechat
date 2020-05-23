@@ -1,3 +1,5 @@
-const host = 'https://wx.chiyouyun.com/api/'
+var host = 'https://wx.chiyouyun.com/api/'
 //const host = 'http://localhost:8090/api/'
-export default host
+const host1 = 'https://wx.chiyouyun.com/api/'
+const host2 = 'https://icve.chiyouyun.com/api/'
+export default {host, host1, host2}

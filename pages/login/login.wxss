@@ -21,3 +21,12 @@
   text-align: center;
   color: rgb(19, 78, 39);
 }
+.choose{
+  position: relative;
+  top: 50rpx;
+  height: 200rpx;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}

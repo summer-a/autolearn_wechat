@@ -8,9 +8,10 @@ Page({
     info: null,
     disableBursh: false,
     user: null,
-    qq: 994580946
+    qq: 994580946,
+    notice: null
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     console.log('load')
   },
   onShow: function() {
@@ -18,6 +19,12 @@ Page({
     wx.showLoading({
       title: '更新数据...',
     })
+    
+    // 更新通知
+    service.notice().then(res => {
+      this.setData({ notice: res == "" ? null : res })
+    })
+
     var that = this;
     var user = wx.getStorageSync('user')
     this.user = user;
@@ -39,21 +46,27 @@ Page({
         } else {
           service.getThreadPoolState().then(res => {
             if (res) {
-              that.setData({ info: res })
+              that.setData({
+                info: res
+              })
             }
           })
 
           // 获取课程列表
           service.listCourse(user.user, user.cookie).then(res => {
             if (res != null && res != "" && res.courseList != "") {
-              that.setData({ courses: res.courseList })
+              that.setData({
+                courses: res.courseList
+              })
             } else {
               // 登录过期
+              wx.clearStorageSync('user')
               wx.redirectTo({
                 url: '../login/login?msg=登录过期，请重新登录',
               })
             }
           }).catch(res => {
+            wx.clearStorageSync('user')
             wx.redirectTo({
               url: '../login/login?msg=登陆失败',
             })
@@ -109,15 +122,15 @@ Page({
       //       // 刷新页面
       //       that.onLoad()
       //     }
-          
+
       //   }
       // })
     }
   },
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.onShow()
   },
-  logout: function () {
+  logout: function() {
     wx.clearStorageSync('user')
     wx.clearStorageSync('courseId')
     wx.redirectTo({

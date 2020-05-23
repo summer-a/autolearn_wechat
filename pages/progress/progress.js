@@ -8,29 +8,35 @@ Page({
   data: {
     course: null,
     flashStateInterval: null,
-    currCourse: null
+    currCourse: null,
+    notilce: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    
+  onLoad: function(options) {
+
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     wx.showLoading({
       title: '载入中...',
+    })
+
+    // 通知
+    service.notice().then(res => {
+      this.setData({ notice: res == "" ? "无通知" : res })
     })
 
     let that = this;
@@ -45,7 +51,7 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
     console.log('pro hide')
     wx.hideLoading()
     clearInterval(this.flashStateInterval);
@@ -55,7 +61,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
     console.log('pro hide')
     wx.hideLoading()
     clearInterval(this.flashStateInterval);
@@ -65,7 +71,7 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     // 先清除定时器再刷新
     clearInterval(this.flashStateInterval);
     this.flashStateInterval = null;
@@ -76,14 +82,14 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   },
   /**
@@ -98,7 +104,7 @@ Page({
         wx.showToast({
           title: (res.msg == undefined || res.msg == "") ? "已被取消" : res.msg,
           duration: 2000,
-          success: function () {
+          success: function() {
             wx.redirectTo({
               url: '../index/index',
             })
@@ -116,7 +122,7 @@ Page({
       url: '../login/login',
     })
   },
-  req: function () {
+  req: function() {
 
     var user = wx.getStorageSync('user');
     var courseId = wx.getStorageSync('courseId');
@@ -124,7 +130,9 @@ Page({
     var that = this;
     service.taskState(user.user.userId).then(res => {
       if (res != null && res != "") {
-        that.setData({ currCourse: res })
+        that.setData({
+          currCourse: res
+        })
 
         // 获取课程进度
         service.course(courseId, user.cookie).then(res => {
@@ -133,7 +141,7 @@ Page({
               title: '刷课完成',
               icon: 'success',
               duration: 5000,
-              complete: function () {
+              complete: function() {
 
                 // 刷课完调用取消任务操作
                 that.cancel();
@@ -144,7 +152,9 @@ Page({
               url: '../login/login',
             })
           }
-          that.setData({ course: res })
+          that.setData({
+            course: res
+          })
         }).finally(res => {
           wx.hideLoading()
           wx.stopPullDownRefresh()
@@ -157,7 +167,7 @@ Page({
           title: '获取状态失败',
           icon: 'none',
           duration: 2000,
-          complete: function () {
+          complete: function() {
             wx.redirectTo({
               url: '../index/index',
             })

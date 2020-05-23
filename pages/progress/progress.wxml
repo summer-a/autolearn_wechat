@@ -1,5 +1,6 @@
 <!--pages/progress/progress.wxml-->
 <view class="container">
+  <view class="notice"> {{ notice }} </view>
   <view class="title" wx:if="{{ currCourse.state == 'START' }}" style="background-color:#1aad19;">任务运行中</view>
   <view class="title" wx:if="{{ currCourse.state == 'QUEUE' }}" style="background-color:#3385ff;">排队中...</view>
   <view class="title" wx:if="{{ currCourse.state == 'STOP' }}" style="background-color:#3385ff;">已停止</view>

@@ -1,5 +1,6 @@
 // pages/login/login.js
 import service from '../../api/api.js'
+import host from '../../utils/config.js'
 var app = getApp();
 Page({
 
@@ -7,12 +8,17 @@ Page({
    * 页面的初始数据
    */
   data: {
+    notice: '通知区域',
+    // 服务器1情况
+    host1: {},
+    // 服务器2情况
+    host2: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     if (options.msg) {
       wx.showToast({
         title: options.msg,
@@ -20,54 +26,72 @@ Page({
         duration: 2000
       })
     }
- 
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
     console.log('ready')
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     console.log('show')
+    service.notice().then(res => {
+      this.setData({ notice: res == "" ? "无通知" : res })
+    })
+
+    // 获取服务器状态
+    let url = '/threadpool/info'
+    service.request(host.host1 + url).then(res => {
+      res.idle = res.workThread < res.corePoolSize
+      this.setData({
+        host1: res
+      })
+      console.log(this.data.host1)
+    })
+    service.request(host.host2 + url).then(res => {
+      res.idle = res.workThread < res.corePoolSize
+      this.setData({
+        host2: res
+      })
+    })
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
     console.log('hide')
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
     console.log('unload')
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   },
   /**
@@ -110,8 +134,15 @@ Page({
           icon: 'none'
         })
       }).finally(() => {
-        
+
       })
     }
   },
+  changeServer: function(e) {
+    if (e.detail.value == "1") {
+      host.host = host.host1
+    } else {
+      host.host = host.host2
+    }
+  }
 })
