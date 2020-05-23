@@ -9,6 +9,7 @@ Page({
    */
   data: {
     notice: '通知区域',
+    account: '',
     // 服务器1情况
     host1: {},
     // 服务器2情况
@@ -41,6 +42,20 @@ Page({
     console.log('show')
     service.notice().then(res => {
       this.setData({ notice: res == "" ? "无通知" : res })
+    })
+    
+    // 还原账号
+    let account = wx.getStorageSync('account')
+    if (account != '' && account != null) {
+      this.setData({
+        account: account
+      })
+    }
+
+    // 还原服务器选择
+    let serverNo = wx.getStorageSync('serverNo')
+    this.setData({
+      serverNo: serverNo
     })
 
     // 获取服务器状态
@@ -116,6 +131,9 @@ Page({
           console.log('登录成功')
           // 存储cookie
           wx.setStorageSync('user', res.data)
+          // 存储账号
+          console.log(form.username)
+          wx.setStorageSync('account', form.username)
           // 跳转到主页
           wx.redirectTo({
             url: '../index/index',
@@ -141,8 +159,10 @@ Page({
   changeServer: function(e) {
     if (e.detail.value == "1") {
       host.host = host.host1
+      wx.setStorageSync('serverNo', 1)
     } else {
       host.host = host.host2
+      wx.setStorageSync('serverNo', 2)
     }
   }
 })

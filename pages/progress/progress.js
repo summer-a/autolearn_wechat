@@ -116,8 +116,8 @@ Page({
   logout: function() {
     clearInterval(this.flashStateInterval);
     this.flashStateInterval = null;
-    wx.clearStorageSync('user')
-    wx.clearStorageSync('courseId')
+    wx.removeStorageSync('user')
+    wx.removeStorageSync('courseId')
     wx.redirectTo({
       url: '../login/login',
     })

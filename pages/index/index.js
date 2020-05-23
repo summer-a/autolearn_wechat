@@ -1,4 +1,5 @@
 import service from '../../api/api.js'
+import host from '../../utils/config.js'
 //获取应用实例
 const app = getApp()
 
@@ -13,6 +14,15 @@ Page({
   },
   onLoad: function(options) {
     console.log('load')
+    // 服务器切换
+    let server = wx.getStorageSync('serverNo')
+    if (server === 1) {
+      host.host = host.host1
+    } else if (server === 2) {
+      host.host = host.host2
+    } else {
+      
+    }
   },
   onShow: function() {
     console.log("onShow")
@@ -60,13 +70,13 @@ Page({
               })
             } else {
               // 登录过期
-              wx.clearStorageSync('user')
+              wx.removeStorageSync('user')
               wx.redirectTo({
                 url: '../login/login?msg=登录过期，请重新登录',
               })
             }
           }).catch(res => {
-            wx.clearStorageSync('user')
+            wx.removeStorageSync('user')
             wx.redirectTo({
               url: '../login/login?msg=登陆失败',
             })
@@ -97,42 +107,14 @@ Page({
           that.onShow()
         }
       })
-      // wx.request({
-      //   url: api + "start",
-      //   data: {
-      //     user: user.user, 
-      //     cookie: user.cookie,
-      //     courseId: dataset.itemId,
-      //     courseOpenId: dataset.courseId,
-      //     openClassId: dataset.classId
-      //   },
-      //   method: 'get',
-      //   success: function(data) {
-      //     console.log(data)
-      //     // 判断请求是否被拒绝
-      //     var d = data.data;
-      //     if (d.code === 403) {
-      //       wx.showToast({
-      //         title: d.msg,
-      //         icon: 'none'
-      //       })
-      //       return;
-      //     } else {
-      //       wx.setStorageSync('courseId', dataset.itemId)
-      //       // 刷新页面
-      //       that.onLoad()
-      //     }
-
-      //   }
-      // })
     }
   },
   onPullDownRefresh: function() {
     this.onShow()
   },
   logout: function() {
-    wx.clearStorageSync('user')
-    wx.clearStorageSync('courseId')
+    wx.removeStorageSync('user')
+    wx.removeStorageSync('courseId')
     wx.redirectTo({
       url: '../login/login',
     })
