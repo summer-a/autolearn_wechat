@@ -1,24 +1,46 @@
 <!--index.wxml-->
 <view class="container">
-  <view wx:if="{{ notice != null }}" class="notice" style=""> {{ notice }} </view>
-  <view class="title">课程列表</view>
+
+  <!-- 背景 -->
+  <image class="login-bg" src="../../res/img/login_bg.jpg" ></image>
+  <!-- 标题信息 -->
+  <view class="top-navigate" style="margin-top: {{buttonInfo == null ? 26 : buttonInfo.top}}px; height: {{buttonInfo == null ? 32 : buttonInfo.height}}px">
+    <button class="logout" style="height: {{buttonInfo == null ? 32 : buttonInfo.height}}px;line-height: {{buttonInfo == null ? 32 : buttonInfo.height}}px" bindtap="logout">退出</button>
+    <view class="title-text">课程列表</view>
+  </view>
+
+  <!-- 头信息 -->
+  <view class="infomation">
+    <view class="notice">公告: {{ notice == null ? '暂无公告' : notice }} </view>
+    <view class="message-info">
+      <view wx:if="{{ info.workThread < info.corePoolSize }}" style="background-color:#1aad19;">当前空闲通道(下拉刷新)： {{ info.corePoolSize - info.workThread }}</view>
+      <view wx:if="{{ info.workThread >= info.corePoolSize }}" style="background-color:#cbcbcb;">当前排队人数(下拉刷新)：{{ info.workQueue }}</view>
+    </view>
+  </view>
+
+  <!-- 选项卡 -->
+  <view class="options">
+    <view class="{{select == 1 ? 'selected' : ''}}" data-id="1" bindtap="changeTab">未完成</view>
+    <view class="{{select == 2 ? 'selected' : ''}}" data-id="2" bindtap="changeTab">已完成</view>
+  </view>
+  <swiper class="swiper" bindchange="swiperChangeTab" current="{{ select - 1 }}">
+    <swiper-item wx:for="{{ courseStatus }}" wx:for-item="status" wx:for-index="statusIndex">
+      <scroll-view class="scroll-item" scroll-y>
+        <view class="courses {{ item.process == 100 ? 'flag' : '' }}" wx:for="{{ courses }}" wx:for-item="item" wx:if="{{ (statusIndex == 0 && item.process < 100) ||   (statusIndex == 1 && item.process == 100) }}">
+          <view class="icon">
+            <image src="{{ item.thumbnail }}" mode="widthFix"></image>
+          </view>
+          <view class="body">
+            <view>{{ item.courseName }}</view>
+            <view>老师:{{ item.assistTeacherName }}</view>
+            <view><progress style="width:100%;height:30rpx;" percent="{{ item.process }}"  active active-mode="forwards" ></progress></view>
+          </view>
+          <view class="operate">
+            <button bindtap="begin" type="{{ (item.process == 100) ? 'default' : 'primary' }}" data-course-id="{{ item.courseOpenId }}" data-class-id="{{ item.openClassId }}" data-item-id="{{ item.id }}" data-type="{{ (item.process == 100) ? 'add' : 'begin' }}" disabled="{{ disableBursh }}">{{ (item.process == 100) ? '加时' : '开始' }}</button>
+          </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
   <view class="qq">QQ群:{{ qq }}</view>
-  <view class="info">
-    <view wx:if="{{ info.workThread < info.corePoolSize }}" style="background-color:#1aad19;">当前空闲通道(下拉刷新)： {{ info.corePoolSize - info.workThread }}</view>
-    <view wx:if="{{ info.workThread >= info.corePoolSize }}" style="background-color:#3385ff;">当前排队人数(下拉刷新)：{{ info.workQueue }}</view>
-  </view>
-  <view class="courses" wx:for="{{ courses }}" wx:key="item">
-    <view class="icon">
-      <image src="{{ item.thumbnail }}" mode="widthFix"></image>
-    </view>
-    <view class="body">
-      <view>{{ item.courseName }}</view>
-      <view>老师:{{ item.assistTeacherName }}</view>
-      <view><progress style="width:100%;height:30rpx;" percent="{{ item.process }}"  active active-mode="forwards" ></progress></view>
-    </view>
-    <view class="operate">
-      <button bindtap="begin" type="primary" data-course-id="{{ item.courseOpenId }}" data-class-id="{{ item.openClassId }}" data-item-id="{{ item.id }}" disabled="{{ disableBursh }}">开始</button>
-    </view>
-  </view>
-  <button class="logout" type="warn" bindtap="logout">退出登录</button>
 </view>

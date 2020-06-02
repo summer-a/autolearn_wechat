@@ -41,7 +41,7 @@ Page({
   onShow: function() {
     console.log('show')
     service.notice().then(res => {
-      this.setData({ notice: res == "" ? "无通知" : res })
+      this.setData({ notice: res == "" ? "暂无公告" : res })
     })
     
     // 还原账号
@@ -65,10 +65,19 @@ Page({
       this.setData({
         host1: res
       })
-      console.log(this.data.host1)
+    }).catch(res => {
+      res.idle = null
+      this.setData({
+        host1: res
+      })
     })
     service.request(host.host2 + url).then(res => {
       res.idle = res.workThread < res.corePoolSize
+      this.setData({
+        host2: res
+      })
+    }).catch(res => {
+      res.idle = null
       this.setData({
         host2: res
       })
@@ -139,20 +148,16 @@ Page({
             url: '../index/index',
           })
         } else {
-          wx.hideLoading()
           wx.showToast({
-            title: '登录失败,请检查账号和密码是否正确',
+            title: (res.msg != '' && res.msg != null) ? res.msg : '登录失败,请检查账号和密码是否正确',
             icon: 'none'
           })
         }
       }).catch(rec => {
-        wx.hideLoading()
         wx.showToast({
           title: '登录失败',
           icon: 'none'
         })
-      }).finally(() => {
-
       })
     }
   },

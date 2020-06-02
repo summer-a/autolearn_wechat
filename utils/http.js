@@ -35,7 +35,7 @@ class http {
         data: data,
         header: header,
         method: method,
-        success: (res => {
+        success: res => {
           if (res.statusCode === 200) {
             //200: 服务端业务处理正常结束
             resolve(res)
@@ -47,13 +47,17 @@ class http {
             }
             reject(res)
           }
-        }),
-        fail: (res => {
+        },
+        fail: res => {
           if (this._errorHandler != null) {
             this._errorHandler(res)
           }
           reject(res)
-        })
+        },
+        complete: () => {
+          wx.hideLoading()
+          wx.stopPullDownRefresh()
+        }
       })
     })
   }

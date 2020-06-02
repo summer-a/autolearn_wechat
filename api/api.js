@@ -61,9 +61,7 @@ class api{
 
   // 获取通知
   notice() {
-    let header = { "content-type": "application/json;charset=gb2312"}
-    let noticeServer = host.host2
-    return this._http.getRequest(noticeServer + 'msg', {}, header).then(res => res.data)
+    return this._http.getRequest(host.host + 'msg', {}).then(res => res.data)
   }
 
   // 自定义请求

@@ -6,11 +6,14 @@ const app = getApp()
 Page({
   data: {
     courses: [],
+    select: 1,
+    courseStatus: ['未完成', '已完成'],
     info: null,
     disableBursh: false,
     user: null,
-    qq: 994580946,
-    notice: null
+    qq: 0,
+    notice: null,
+    buttonInfo: null
   },
   onLoad: function(options) {
     console.log('load')
@@ -23,6 +26,24 @@ Page({
     } else {
       
     }
+
+    this.setData({
+      qq: app.globalData.qq
+    })
+    
+    if (wx.canIUse('getMenuButtonBoundingClientRect')) {
+      this.setData({
+        buttonInfo: wx.getMenuButtonBoundingClientRect()
+      })
+      console.log(wx.getMenuButtonBoundingClientRect())
+    }
+    
+  },
+    /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
   },
   onShow: function() {
     console.log("onShow")
@@ -32,7 +53,7 @@ Page({
     
     // 更新通知
     service.notice().then(res => {
-      this.setData({ notice: res == "" ? null : res })
+      this.setData({ notice: res == "" ? '暂无公告' : res })
     })
 
     var that = this;
@@ -80,16 +101,20 @@ Page({
             wx.redirectTo({
               url: '../login/login?msg=登陆失败',
             })
-          }).finally(res => {
-            wx.hideLoading()
-            wx.stopPullDownRefresh()
           })
         }
       })
     }
   },
   begin: function(e) {
+    
     var dataset = e.currentTarget.dataset;
+    if (dataset.type == 'add') {
+      wx.showModal({
+        title: '该功能尚未完成',
+      })
+      return;
+    }
     var user = this.user;
     var that = this;
     if (user && user != null && user.cookie && user.cookie != null) {
@@ -119,5 +144,16 @@ Page({
       url: '../login/login',
     })
   },
-
+  changeTab: function(e) {
+    console.log(e.currentTarget.dataset.id)
+    this.setData({
+      select: e.currentTarget.dataset.id
+    })
+  },
+  swiperChangeTab: function(e) {
+    console.log(e)
+    this.setData({
+      select: e.detail.current + 1
+    })
+  }
 })

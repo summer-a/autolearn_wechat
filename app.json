@@ -5,11 +5,13 @@
     "pages/progress/progress"
   ],
   "window": {
+    "navigationStyle": "custom",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "职教云自动学习平台",
     "navigationBarTextStyle": "black"
   },
+  
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

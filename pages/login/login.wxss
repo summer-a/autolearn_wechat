@@ -5,28 +5,118 @@
   align-items: center;
   justify-content: space-between;
   padding: 200rpx 0;
+  box-sizing: border-box;
+  height: 100vh;
 }
+/** 背景 */
+.login-bg{
+  z-index: 1;
+  position: absolute;
+  display: flex;
+  width: 100%;
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+}
+/** logo */
+.logo{
+  z-index: 1;
+  position: absolute;
+  display: flex;
+  top: 150rpx;
+  padding: 20rpx;
+  margin: 0 auto;
+  border-radius: 150rpx;
+  background-color: #FFF;
+}
+.logo-img{
+  width: 150rpx;
+  height: 150rpx;
+}
+/** 表单 */
 .form{
-  width: 50%;
-  height: 400rpx;
+  z-index: 2;
+  border-radius: 20rpx;
+  box-shadow: 5rpx 5rpx 20rpx rgba(0,0,0,0.2);
+  margin: 250rpx 0 0;
+  width: 95vw;
+  height: 500rpx;
+  background-color: #FFF;
+  position: relative;
 }
-.form input{
-  height: 80rpx;
-  margin-bottom: 30rpx;
-  padding-left: 10rpx;
-  border: 1rpx solid rgb(191, 237, 255);
+/** 输入框 行样式 */
+.form .input-view{
+  width: 80vw;
+  margin: 10rpx auto;
+  border-bottom: 2rpx solid #E2E2E2;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
 }
-.title {
-  margin-bottom: 40rpx;
+/** 登录按钮样式 */
+.form .login{
+  margin: 50rpx auto;
+  border-radius: 50rpx;
+  width: 80vw;
+  background-image: linear-gradient(to right, #41cfff , #4099fd);
+  color: #FFF;
+  font-weight: 400;
+  font-size: 30rpx;
+}
+/** 输入框内容样式 */
+.input-view input, .input-view text{
+  height: 70rpx;
+  margin: 20rpx auto;
+  font-size: 32rpx;
+}
+/** input 样式 */
+.input-view input{
+  width: 60vw;
+  font-size: 32rpx;
+}
+/** input左边的文本 */
+.input-view text{
+  height: 70rpx;
+  line-height: 70rpx;
   text-align: center;
-  color: rgb(19, 78, 39);
+  width: 20vw;
+  color: #333;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+/** 登录提醒标题 */
+.title {
+  margin: 30rpx auto 10rpx;
+  text-align: center;
+  color: rgb(140, 160, 255);
+  font-size: 30rpx;
+}
+/** 单选框 */
 .choose{
   position: relative;
-  top: 50rpx;
+  top: 80rpx;
   height: 200rpx;
 
+  font-size: 32rpx;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+}
+/** 输入框背景样式 */
+.gray-color{
+  color: #c7c7c7;
+  font-size: 28rpx;
+}
+/** 通知栏 */
+.notice{
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  z-index: 3;
+  top: -50rpx;
+
+  border: 0;
+  color: #FFF;
+  font-size: 27rpx;
 }

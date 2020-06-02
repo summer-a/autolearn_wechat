@@ -9,14 +9,17 @@ Page({
     course: null,
     flashStateInterval: null,
     currCourse: null,
-    notilce: null
+    notice: null,
+    qq: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    this.setData({
+      qq: app.globalData.qq
+    })
   },
 
   /**
@@ -36,7 +39,7 @@ Page({
 
     // 通知
     service.notice().then(res => {
-      this.setData({ notice: res == "" ? "无通知" : res })
+      this.setData({ notice: res == "" ? "暂无公告" : res})
     })
 
     let that = this;
@@ -127,6 +130,13 @@ Page({
     var user = wx.getStorageSync('user');
     var courseId = wx.getStorageSync('courseId');
 
+    if (user == null || user == ''){
+      wx.redirectTo({
+        url: '../login/login',
+      })
+      return ;
+    }
+
     var that = this;
     service.taskState(user.user.userId).then(res => {
       if (res != null && res != "") {
@@ -155,9 +165,6 @@ Page({
           that.setData({
             course: res
           })
-        }).finally(res => {
-          wx.hideLoading()
-          wx.stopPullDownRefresh()
         })
       } else {
         clearInterval(that.flashStateInterval);

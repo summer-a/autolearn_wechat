@@ -1,22 +1,34 @@
 <view class="container">
-  <view class="notice"> {{ notice }} </view>
+  <image class="login-bg" src="../../res/img/login_bg.jpg" mode="widthFix"></image>
+  <view class="logo">
+    <image class="logo-img" src="../../res/img/logo.png" mode="widthFix"></image>
+  </view>
   <form catchsubmit="formSubmit" class="form">
-    <view class="title" style="color:orange;font-weight: 500">请使用职教云账号登录</view>
-    <input class="username" name="username" placeholder="请输入账号" type="number" maxlength="11" value="{{ account }}"></input>
-    <input  name="password" type="password" placeholder="请输入密码" maxlength="25"></input>
-    <button class="login" type="primary" form-type="submit">登录</button>
+    <view class="notice"> 公告: {{ notice }} </view>
+    <view class="title">请使用职教云账号登录</view>
+    <view class="input-view">
+      <text class="text">账号</text>
+      <input class="username" name="username" placeholder="请输入账号" type="text" maxlength="11" value="{{ account }}" placeholder-class="gray-color"></input>
+    </view>
+    <view class="input-view">
+      <text class="text">密码</text>
+      <input  name="password" type="password" placeholder="请输入密码" maxlength="25"  placeholder-class="gray-color"></input>
+    </view>
+    <button class="login" form-type="submit">登 录</button>
   </form>
   <radio-group class="choose" bindchange="changeServer">
-    <radio value="1" checked="{{ serverNo == 1 }}">
+    <radio value="1" checked="{{ serverNo == 1 || serverNo == null || serverNo == '' }}">
     服务器1 [ 
-      <text wx:if="{{host1.idle}}" style="color:green">空闲</text>
-      <text wx:if="{{!host1.idle}}" style="color:orange">需排队</text>
+      <text wx:if="{{ host1.idle == null }}" style="color:red">维护中</text>
+      <text wx:if="{{ host1.idle == true }}" style="color:green">空闲</text>
+      <text wx:if="{{ host1.idle == false }}" style="color:orange">需排队</text>
         ]
     </radio>
     <radio value="2" checked="{{ serverNo == 2 }}">
     服务器2 [ 
-      <text wx:if="{{host2.idle}}" style="color:green">空闲</text>
-      <text wx:if="{{!host2.idle}}" style="color:orange">需排队</text>
+      <text wx:if="{{ host2.idle == null }}" style="color:red">维护中</text>
+      <text wx:if="{{ host2.idle == true }}" style="color:green">空闲</text>
+      <text wx:if="{{ host2.idle == false }}" style="color:orange">需排队</text>
         ]
     </radio>
   </radio-group>
