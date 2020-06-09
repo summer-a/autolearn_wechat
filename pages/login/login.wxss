@@ -40,7 +40,7 @@
   box-shadow: 5rpx 5rpx 20rpx rgba(0,0,0,0.2);
   margin: 250rpx 0 0;
   width: 95vw;
-  height: 500rpx;
+  height: 700rpx;
   background-color: #FFF;
   position: relative;
 }
@@ -54,6 +54,7 @@
   flex-direction: row;
   align-items: center;
   box-sizing: border-box;
+  position: relative;
 }
 /** 登录按钮样式 */
 .form .login{
@@ -119,4 +120,12 @@
   border: 0;
   color: #FFF;
   font-size: 27rpx;
+}
+/** 验证码 */
+.verifyCode {
+  position: absolute;
+  z-index: 10;
+  width: 300rpx;
+
+  right: 10rpx;
 }

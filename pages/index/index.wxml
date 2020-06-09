@@ -24,9 +24,13 @@
     <view class="{{select == 2 ? 'selected' : ''}}" data-id="2" bindtap="changeTab">已完成</view>
   </view>
   <swiper class="swiper" bindchange="swiperChangeTab" current="{{ select - 1 }}">
-    <swiper-item wx:for="{{ courseStatus }}" wx:for-item="status" wx:for-index="statusIndex">
+    <swiper-item wx:for="{{ courseStatus }}" wx:key="status" wx:for-index="statusIndex">
       <scroll-view class="scroll-item" scroll-y>
-        <view class="courses {{ item.process == 100 ? 'flag' : '' }}" wx:for="{{ courses }}" wx:for-item="item" wx:if="{{ (statusIndex == 0 && item.process < 100) ||   (statusIndex == 1 && item.process == 100) }}">
+        <view class="refresh" wx:if="{{ item == null }}">
+          <button type="primary" bindtap="refresh">刷新</button>
+          <view>如若不行请退出重新登陆</view>
+        </view>
+        <view class="courses {{ item.process == 100 ? 'flag' : '' }}" wx:for="{{ courses }}" wx:key="item" wx:if="{{ (statusIndex == 0 && item.process < 100) ||   (statusIndex == 1 && item.process == 100) }}">
           <view class="icon">
             <image src="{{ item.thumbnail }}" mode="widthFix"></image>
           </view>

@@ -29,6 +29,7 @@
       <view class="text">教师：{{ course.assistTeacherName }}</view>
       <view class="text">进度：{{ course.process == undefined ? '' : (course.process + '%')}}</view>
       <view class="text">学期：{{ course.termName }}</view>
+      <view class="text">课件：{{ currCourse.courseCount }} 个</view>
     </view>
   </view>
 

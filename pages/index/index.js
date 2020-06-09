@@ -28,15 +28,9 @@ Page({
     }
 
     this.setData({
-      qq: app.globalData.qq
+      qq: app.globalData.qq,
+      buttonInfo: app.globalData.buttonInfo
     })
-    
-    if (wx.canIUse('getMenuButtonBoundingClientRect')) {
-      this.setData({
-        buttonInfo: wx.getMenuButtonBoundingClientRect()
-      })
-      console.log(wx.getMenuButtonBoundingClientRect())
-    }
     
   },
     /**
@@ -70,7 +64,6 @@ Page({
         console.log(res)
         if (res != null && res != "") {
           wx.setStorageSync('courseId', res.courseId)
-          wx.stopPullDownRefresh()
           wx.redirectTo({
             url: '../progress/progress',
           })
@@ -85,6 +78,10 @@ Page({
 
           // 获取课程列表
           service.listCourse(user.user, user.cookie).then(res => {
+
+            wx.hideLoading()
+            wx.stopPullDownRefresh()
+
             if (res != null && res != "" && res.courseList != "") {
               that.setData({
                 courses: res.courseList
@@ -97,12 +94,19 @@ Page({
               })
             }
           }).catch(res => {
+
+            wx.hideLoading()
+            wx.stopPullDownRefresh()
+
             wx.removeStorageSync('user')
             wx.redirectTo({
               url: '../login/login?msg=登陆失败',
             })
           })
         }
+      }).catch(err => {
+        wx.hideLoading()
+        wx.stopPullDownRefresh()
       })
     }
   },
@@ -155,5 +159,8 @@ Page({
     this.setData({
       select: e.detail.current + 1
     })
+  },
+  refresh: function() {
+    this.onShow();
   }
 })

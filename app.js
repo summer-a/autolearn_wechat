@@ -37,10 +37,17 @@ App({
       })
     }
     
+    // 获取屏幕信息
+    if (wx.canIUse('getMenuButtonBoundingClientRect')) {
+      this.globalData.buttonInfo = wx.getMenuButtonBoundingClientRect()
+    }
+
   },
   globalData: {
     userInfo: null,
     qq: 994580946,
-    notice: '通知区域'
+    notice: '通知区域',
+    buttonInfo: null,
+    loding: false
   }
 })

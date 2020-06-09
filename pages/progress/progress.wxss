@@ -135,7 +135,7 @@
 
 .info .text{
   color: #222;
-  font-size: 28rpx;
+  font-size: 27rpx;
 }
 .info-title{
   margin:0 20rpx;
@@ -159,4 +159,5 @@
   text-align: center;
   position: fixed;
   bottom: 20rpx;
+  background-color: #FFF;
 }

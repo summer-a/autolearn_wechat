@@ -1,3 +1,4 @@
+const app = getApp();
 class http {
   constructor() {
     this._header = {}
@@ -28,11 +29,13 @@ class http {
   /**
    * 网络请求
    */
-  requestAll(url, data, header, method) {
+  requestAll(url, data={}, header={}, method='GET', dataType='json',responseType='text') {
     return new Promise((resolve, reject) => {
       wx.request({
         url: url,
         data: data,
+        dataType: dataType,
+        responseType: responseType,
         header: header,
         method: method,
         success: res => {
@@ -55,8 +58,7 @@ class http {
           reject(res)
         },
         complete: () => {
-          wx.hideLoading()
-          wx.stopPullDownRefresh()
+          
         }
       })
     })

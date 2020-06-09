@@ -10,6 +10,9 @@ Page({
   data: {
     notice: '通知区域',
     account: '',
+    verifyCodeImg: '',
+    // 验证码输入框焦点
+    verifyCodeFocus: false,
     // 服务器1情况
     host1: {},
     // 服务器2情况
@@ -58,8 +61,11 @@ Page({
       serverNo: serverNo
     })
 
+    // 获取验证码
+    this.getVerifyCode()
+
     // 获取服务器状态
-    let url = '/threadpool/info'
+    let url = 'threadpool/info'
     service.request(host.host1 + url).then(res => {
       res.idle = res.workThread < res.corePoolSize
       this.setData({
@@ -133,9 +139,13 @@ Page({
         title: '登录中……',
         mask: true
       })
+
       var that = this;
       service.login(form.username, form.password).then(res => {
         console.log(res)
+        
+        wx.hideLoading()
+
         if (res.data && res.code == 200) {
           console.log('登录成功')
           // 存储cookie
@@ -154,6 +164,7 @@ Page({
           })
         }
       }).catch(rec => {
+        wx.hideLoading()
         wx.showToast({
           title: '登录失败',
           icon: 'none'
@@ -169,5 +180,28 @@ Page({
       host.host = host.host2
       wx.setStorageSync('serverNo', 2)
     }
+  },
+  // 更换验证码
+  changeVerifyCode: function() {
+    this.getVerifyCode()
+    this.setData({
+      verifyCodeFocus: true
+    })
+  },
+  // 获取验证码
+  getVerifyCode: function() {
+    service.verifyCode().then(res => {
+      if (res && res.code === "200") {
+        wx.setStorageSync('verifyCodeCookie', res.cookie)
+        this.setData({
+          verifyCodeImg: res.base64
+        })
+      }
+    }).catch(err => {
+      wx.showToast({
+        title: '验证码获取失败，请重试',
+        icon: 'none'
+      })
+    })
   }
 })

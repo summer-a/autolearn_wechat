@@ -6,11 +6,22 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 课程信息
     course: null,
+    // 定时器状态
     flashStateInterval: null,
+    // 当前刷课的课程
     currCourse: null,
+    // 公告
     notice: null,
-    qq: 0
+    // qq群
+    qq: 0,
+    // 退出按钮的位置信息
+    buttonInfo: null,
+    // 是否有lodingModel在使用
+    loading: false,
+    // 控制台输出信息
+    console: null
   },
 
   /**
@@ -18,7 +29,8 @@ Page({
    */
   onLoad: function(options) {
     this.setData({
-      qq: app.globalData.qq
+      qq: app.globalData.qq,
+      buttonInfo: app.globalData.buttonInfo
     })
   },
 
@@ -35,6 +47,11 @@ Page({
   onShow: function() {
     wx.showLoading({
       title: '载入中...',
+    })
+
+    // 更新状态
+    this.setData({
+      loading: true
     })
 
     // 通知
@@ -131,6 +148,13 @@ Page({
     var courseId = wx.getStorageSync('courseId');
 
     if (user == null || user == ''){
+      if (this.data.loading == true) {
+        this.setData({
+          loading: false
+        })
+        wx.hideLoading()
+      }
+      wx.stopPullDownRefresh()
       wx.redirectTo({
         url: '../login/login',
       })
@@ -139,6 +163,7 @@ Page({
 
     var that = this;
     service.taskState(user.user.userId).then(res => {
+      console.log(res)
       if (res != null && res != "") {
         that.setData({
           currCourse: res
@@ -146,6 +171,15 @@ Page({
 
         // 获取课程进度
         service.course(courseId, user.cookie).then(res => {
+          console.log(res)
+          if (this.data.loading == true) {
+            that.setData({
+              loading: false
+            })
+            wx.hideLoading()
+          }
+          wx.stopPullDownRefresh()
+
           if (res && res.process == 100) {
             wx.showToast({
               title: '刷课完成',
@@ -165,6 +199,14 @@ Page({
           that.setData({
             course: res
           })
+        }).catch(err => {
+          if (this.data.loading == true) {
+            that.setData({
+              loading: false
+            })
+            wx.hideLoading()
+          }
+          wx.stopPullDownRefresh()
         })
       } else {
         clearInterval(that.flashStateInterval);

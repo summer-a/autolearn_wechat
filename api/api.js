@@ -18,6 +18,11 @@ class api{
     return this._http.postRequest(host.host + 'login', data, header).then(res => res.data)
   }
 
+  // 获取验证码
+  verifyCode() {
+    return this._http.getRequest(host.host + 'verifyCode').then(res => res.data)
+  }
+
   // 获取任务状态以判断是否已经有任务在进行
   taskState(userId) {
     let data = {id: userId}
@@ -61,7 +66,8 @@ class api{
 
   // 获取通知
   notice() {
-    return this._http.getRequest(host.host + 'msg', {}).then(res => res.data)
+    // 通知服务器默认2
+    return this._http.getRequest(host.host2 + 'msg', {}).then(res => res.data)
   }
 
   // 自定义请求

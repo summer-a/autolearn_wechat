@@ -8,11 +8,16 @@
     <view class="title">请使用职教云账号登录</view>
     <view class="input-view">
       <text class="text">账号</text>
-      <input class="username" name="username" placeholder="请输入账号" type="text" maxlength="11" value="{{ account }}" placeholder-class="gray-color"></input>
+      <input class="username" name="username" placeholder="请输入账号" type="text" maxlength="15" value="{{ account }}" placeholder-class="gray-color"></input>
     </view>
     <view class="input-view">
       <text class="text">密码</text>
-      <input  name="password" type="password" placeholder="请输入密码" maxlength="25"  placeholder-class="gray-color"></input>
+      <input name="password" type="password" placeholder="请输入密码" maxlength="25"  placeholder-class="gray-color"></input>
+    </view>
+    <view class="input-view">
+      <text class="text">验证码</text>
+      <image class="verifyCode" src="{{ verifyCodeImg }}" mode="widthFix" bindtap="changeVerifyCode"></image>
+      <input name="verifyCode" type="text" placeholder="验证码" maxlength="4" focus="{{ verifyCodeFocus }}" placeholder-class="gray-color"></input>
     </view>
     <button class="login" form-type="submit">登 录</button>
   </form>
