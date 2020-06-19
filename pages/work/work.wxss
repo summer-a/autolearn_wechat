@@ -89,5 +89,9 @@
   background-color: #f4f2fe;
 }
 .submitButton{
-  margin: 30rpx auto;
+  margin: 30rpx auto 40rpx;
+  font-size: 30rpx;
+}
+.operate button {
+  font-size: 30rpx;
 }

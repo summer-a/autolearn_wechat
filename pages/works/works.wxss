@@ -35,7 +35,7 @@
   justify-content: space-between;
 
   position: relative;
-  border: 1px solid #CCFFFF;
+  border: 1px solid rgb(234, 255, 255);
 }
 .workInfo {
   width: 80%;

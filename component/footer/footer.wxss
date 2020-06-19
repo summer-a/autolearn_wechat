@@ -1,0 +1,12 @@
+/* component/footer/footer.wxss */
+.footer {
+  font-size: 25rpx;
+  height: 35rpx;
+  line-height: 35rpx;
+  color: #8997ff;
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  bottom: 0rpx;
+  background-color: #FFF;
+}

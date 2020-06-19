@@ -60,6 +60,7 @@
   color: #FFF;
 }
 .notice{
+  font-size: 28rpx;
   position: relative;
   margin-bottom: 30rpx;
   color: #3b4594;

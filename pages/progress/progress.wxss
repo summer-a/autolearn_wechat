@@ -145,13 +145,3 @@
   height: 420rpx;
   margin: 40rpx auto;
 }
-
-.qq {
-  font-size: 25rpx;
-  color: #8997ff;
-  width: 100%;
-  text-align: center;
-  position: fixed;
-  bottom: 20rpx;
-  background-color: #FFF;
-}

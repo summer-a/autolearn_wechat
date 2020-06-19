@@ -37,5 +37,6 @@
       <button bindtap="cancel" type="warn">取消任务</button>
     </view>
   </view>
-  <view class="qq">QQ群:{{ qq }}</view>
+  <!-- 页脚 -->
+  <footer/>
 </view>

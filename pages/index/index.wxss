@@ -45,18 +45,6 @@
   font-family: '微软雅黑';
 }
 
-
-.qq {
-  font-size: 25rpx;
-  color: #8997ff;
-  width: 100%;
-  text-align: center;
-  position: fixed;
-  bottom: 10rpx;
-  background-color: #FFF;
-}
-
-
 .options {
   display: flex;
   justify-content: space-around;

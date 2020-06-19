@@ -22,7 +22,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     if (options.msg) {
       wx.showToast({
         title: options.msg,
@@ -34,19 +34,21 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
     console.log('ready')
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
     console.log('show')
     service.notice().then(res => {
-      this.setData({ notice: res == "" ? "暂无公告" : res })
+      this.setData({
+        notice: res == "" ? "暂无公告" : res
+      })
     })
-    
+
     // 还原账号
     let account = wx.getStorageSync('account')
     if (account != '' && account != null) {
@@ -93,48 +95,48 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
     console.log('hide')
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
     console.log('unload')
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
-    
+  onPullDownRefresh: function () {
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
   },
   /**
    * 表单提交
    */
-  formSubmit: function(e) {
+  formSubmit: function (e) {
     var form = e.detail.value;
     if (form.username == "" || form.password == "") {
       wx.showToast({
         title: '用户名和密码不能为空',
         icon: 'none',
       })
-    } else if(form.verifyCode == "" || form.verifyCode.length < 4) {
+    } else if (form.verifyCode == "" || form.verifyCode.length < 4) {
       wx.showToast({
         title: '验证码有误',
         icon: 'none',
@@ -150,7 +152,7 @@ Page({
       var that = this;
       service.login(form.username, form.password, form.verifyCode, verifyCodeCookie).then(res => {
         console.log(res)
-        
+
         wx.hideLoading()
 
         if (res.data && res.code == 200) {
@@ -179,7 +181,7 @@ Page({
       })
     }
   },
-  changeServer: function(e) {
+  changeServer: function (e) {
     if (e.detail.value == "1") {
       host.host = host.host1
       wx.setStorageSync('serverNo', 1)
@@ -189,16 +191,16 @@ Page({
     }
   },
   // 更换验证码
-  changeVerifyCode: function() {
+  changeVerifyCode: function () {
     this.getVerifyCode()
     this.setData({
       verifyCodeFocus: true
     })
   },
   // 获取验证码
-  getVerifyCode: function() {
+  getVerifyCode: function () {
     service.verifyCode().then(res => {
-      if (res && res.code === "200") {
+      if (res) {
         wx.setStorageSync('verifyCodeCookie', res.cookie)
         this.setData({
           verifyCodeImg: res.base64

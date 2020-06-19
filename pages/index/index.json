@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "header": "../../component/header/header"
+    "header": "../../component/header/header",
+    "footer": "../../component/footer/footer"
   },
   "enablePullDownRefresh": true
 }

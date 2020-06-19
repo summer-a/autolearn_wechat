@@ -1,0 +1,2 @@
+<!--component/footer/footer.wxml-->
+<view class="footer">{{ footerInfo }}</view>

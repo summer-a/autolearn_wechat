@@ -36,5 +36,6 @@
       </scroll-view>
     </swiper-item>
   </swiper>
-  <view class="qq">QQ群:{{ qq }}</view>
+  <!-- 页脚 -->
+  <footer/>
 </view>

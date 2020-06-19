@@ -110,7 +110,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**
@@ -131,7 +131,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.onLoad()
+    
   },
 
   /**
@@ -243,6 +243,10 @@ Page({
     
     // 搜索答案
     service.searchAnswer(title).then(res => {
+      wx.showToast({
+        title: '正在搜索...',
+        icon: 'none'
+      })
       if (res.code === 1) {
         let answer = res.data.answer
         // 存储到questions
@@ -373,6 +377,13 @@ Page({
             wx.showToast({
               title: '提交成功',
             })
+            
+            setTimeout(function() {
+              wx.hideToast()
+              wx.redirectTo({
+                url: '../index/index',
+              })
+            }, 1500)
           }
         }).catch(res => {
           wx.showToast({
