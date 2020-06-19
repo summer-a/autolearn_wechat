@@ -11,9 +11,6 @@ Page({
     info: null,
     disableBursh: false,
     user: null,
-    qq: 0,
-    notice: null,
-    buttonInfo: null
   },
   onLoad: function(options) {
     console.log('load')
@@ -26,11 +23,6 @@ Page({
     } else {
       
     }
-
-    this.setData({
-      qq: app.globalData.qq,
-      buttonInfo: app.globalData.buttonInfo
-    })
     
   },
     /**
@@ -43,11 +35,6 @@ Page({
     console.log("onShow")
     wx.showLoading({
       title: '更新数据...',
-    })
-    
-    // 更新通知
-    service.notice().then(res => {
-      this.setData({ notice: res == "" ? '暂无公告' : res })
     })
 
     var that = this;
@@ -123,7 +110,6 @@ Page({
     var that = this;
     if (user && user != null && user.cookie && user.cookie != null) {
       service.start(user.user, user.cookie, dataset.itemId, dataset.courseId, dataset.classId).then(res => {
-        console.log(res)
         // 判断请求是否被拒绝
         if (res.code === 403) {
           wx.showToast({
@@ -133,20 +119,16 @@ Page({
         } else {
           wx.setStorageSync('courseId', dataset.itemId)
           // 刷新页面
-          that.onShow()
+          // that.onShow()
+          wx.redirectTo({
+            url: '../progress/progress',
+          })
         }
       })
     }
   },
   onPullDownRefresh: function() {
     this.onShow()
-  },
-  logout: function() {
-    wx.removeStorageSync('user')
-    wx.removeStorageSync('courseId')
-    wx.redirectTo({
-      url: '../login/login',
-    })
   },
   changeTab: function(e) {
     console.log(e.currentTarget.dataset.id)

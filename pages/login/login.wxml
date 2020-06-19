@@ -3,7 +3,7 @@
   <view class="logo">
     <image class="logo-img" src="../../res/img/logo.png" mode="widthFix"></image>
   </view>
-  <form catchsubmit="formSubmit" class="form">
+  <form catchsubmit="formSubmit" class="form border-fillet">
     <view class="notice"> 公告: {{ notice }} </view>
     <view class="title">请使用职教云账号登录</view>
     <view class="input-view">

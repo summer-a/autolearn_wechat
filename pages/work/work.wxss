@@ -1,0 +1,93 @@
+/* pages/work/work.wxss */
+.body {
+  height: 100%;
+}
+.title {
+  width: 100%;
+  color: #5b5b5b;
+  font-size: 32rpx;
+  font-weight: bold;
+
+  text-indent: 2em;
+  position: relative;
+
+  overflow-wrap: normal;
+
+  margin: 20rpx 0;
+  padding: 20rpx;
+  box-sizing: border-box;
+  border-top: 2rpx solid #e1e1e1;
+}
+.type {
+  height: 70rpx;
+  line-height: 70rpx;
+
+  color: #5b5b5b;
+  font-size: 32rpx;
+  text-indent: 40rpx;
+  position: relative;
+}
+.type view {
+  position: absolute;
+  right: 20rpx;
+  top: 0;
+  width: 150rpx;
+  color: #bb79f0;
+}
+.type::before {
+  content: '';
+  position: absolute;
+  background-color: #8e7ef1;
+  border-radius: 10rpx;
+  width: 10rpx;
+  height: 100%;
+  left: 20rpx;
+}
+.questions {
+  border-radius: 5rpx;
+  padding: 25rpx 0;
+}
+.answers {
+  width: 100%;
+}
+.answer {
+  border: 2rpx solid #dfdfdf;
+  border-radius: 10rpx;
+  width: 90%;
+  margin: 30rpx auto;
+  padding: 20rpx;
+  font-size: 30rpx;
+  color: #5b5b5b;
+}
+.answers .netAnswer{
+  width: 90%;
+  padding: 0 20rpx;
+  font-size: 30rpx;
+  color: #ff6600;
+}
+.answer-text{
+  border: 2rpx solid #dfdfdf;
+  border-radius: 10rpx;
+  width: 90%;
+  margin: 30rpx auto;
+  padding: 20rpx;
+  font-size: 30rpx;
+  color: #5b5b5b;
+}
+.answer-input input {
+  border: 2rpx solid #dfdfdf;
+  border-radius: 10rpx;
+  width: 90%;
+  margin: 30rpx auto;
+  padding: 20rpx;
+  font-size: 30rpx;
+  color: #5b5b5b;
+}
+.checked {
+  border: 2rpx solid #9080f3;
+  color: #c08ff0;
+  background-color: #f4f2fe;
+}
+.submitButton{
+  margin: 30rpx auto;
+}

@@ -119,7 +119,7 @@ Page({
     clearInterval(this.flashStateInterval);
     this.flashStateInterval = null;
     var user = wx.getStorageSync('user')
-    if (user != null && user != "") {
+    if (user != null && user != "" && user.user != null && user.user.userId != undefined) {
       service.cancel(user.user.userId).then(res => {
         wx.showToast({
           title: (res.msg == undefined || res.msg == "") ? "已被取消" : res.msg,
@@ -133,21 +133,12 @@ Page({
       })
     }
   },
-  logout: function() {
-    clearInterval(this.flashStateInterval);
-    this.flashStateInterval = null;
-    wx.removeStorageSync('user')
-    wx.removeStorageSync('courseId')
-    wx.redirectTo({
-      url: '../login/login',
-    })
-  },
   req: function() {
 
     var user = wx.getStorageSync('user');
     var courseId = wx.getStorageSync('courseId');
 
-    if (user == null || user == ''){
+    if (user == null || user == '' || user.user == null){
       if (this.data.loading == true) {
         this.setData({
           loading: false
@@ -163,7 +154,6 @@ Page({
 
     var that = this;
     service.taskState(user.user.userId).then(res => {
-      console.log(res)
       if (res != null && res != "") {
         that.setData({
           currCourse: res

@@ -1,0 +1,35 @@
+
+var dateUtil = function (date) {
+  return getDate(parseInt(date.substring(6, 19))).toLocaleDateString();
+}
+
+var regexUtil = function (str) {
+  return str.replace(getRegExp("<[^>]+>", "g"), "")
+            .replace(getRegExp("(&nbsp;)", "g"), "")
+            .replace(getRegExp("(&quot;)", "g"), '"')
+            .replace(getRegExp("(&amp;)", "g"), '&')
+            .replace(getRegExp("(&gt;)", "g"), ">")
+            .replace(getRegExp("(&lt;)", "g"), "<");
+            
+            // .replace(getRegExp("(```)[^(```)]+", "g"), "")
+            // .replace("undefined", "")
+            // .replace(getRegExp("\[填空\(\d+\)]", "g"), "____")
+}
+
+var randomDate = function() {
+  return getDate().getTime() + (parseInt(Math.random() * 1000))
+}
+
+var isValidAnswer = function(str) {
+  if (str && typeof(str) != 'undefined' && str != '') {
+    return str.indexOf('抱歉找不到') != 0
+  }
+  return false
+}
+
+module.exports = {
+  dateUtil: dateUtil,
+  regexUtil: regexUtil,
+  randomDate: randomDate,
+  isValidAnswer: isValidAnswer
+}

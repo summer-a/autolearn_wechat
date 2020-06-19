@@ -82,22 +82,16 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/login/login",
-					"pathName": "pages/login/login",
+					"name": "pages/works/works",
+					"pathName": "pages/works/works",
 					"query": "",
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "pages/login/login",
-					"pathName": "pages/login/login",
+					"id": 4,
+					"name": "pages/work/work",
+					"pathName": "pages/work/work",
 					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/login/login",
-					"pathName": "pages/login/login",
 					"scene": null
 				}
 			]

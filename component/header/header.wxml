@@ -1,0 +1,15 @@
+<!-- 背景 -->
+<image class="login-bg" src="../../res/img/login_bg.jpg" ></image>
+<!-- 标题信息 -->
+<view class="top-navigate" style="margin-top: {{buttonInfo == null ? 26 : buttonInfo.top}}px; height: {{buttonInfo == null ? 32 : buttonInfo.height}}px">
+  <button class="logout" style="height: {{buttonInfo == null ? 32 : buttonInfo.height}}px;line-height: {{buttonInfo == null ? 32 : buttonInfo.height}}px" bindtap="logout">退出</button>
+  <view class="title-text">{{ title }}</view>
+</view>
+
+<!-- 头信息 -->
+<view class="infomation">
+  <view class="notice">公告: {{ notice == null ? '暂无公告' : notice }} </view>
+  <view class="message-info">
+    <view style="{{ messageStyle }}">{{ message }}</view>
+  </view>
+</view>

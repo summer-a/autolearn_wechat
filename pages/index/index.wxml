@@ -1,27 +1,17 @@
 <!--index.wxml-->
+<!-- 引入模板-->
 <view class="container">
-
-  <!-- 背景 -->
-  <image class="login-bg" src="../../res/img/login_bg.jpg" ></image>
-  <!-- 标题信息 -->
-  <view class="top-navigate" style="margin-top: {{buttonInfo == null ? 26 : buttonInfo.top}}px; height: {{buttonInfo == null ? 32 : buttonInfo.height}}px">
-    <button class="logout" style="height: {{buttonInfo == null ? 32 : buttonInfo.height}}px;line-height: {{buttonInfo == null ? 32 : buttonInfo.height}}px" bindtap="logout">退出</button>
-    <view class="title-text">课程列表</view>
-  </view>
-
-  <!-- 头信息 -->
-  <view class="infomation">
-    <view class="notice">公告: {{ notice == null ? '暂无公告' : notice }} </view>
-    <view class="message-info">
-      <view wx:if="{{ info.workThread < info.corePoolSize }}" style="background-color:#1aad19;">当前空闲通道(下拉刷新)： {{ info.corePoolSize - info.workThread }}</view>
-      <view wx:if="{{ info.workThread >= info.corePoolSize }}" style="background-color:#cbcbcb;">当前排队人数(下拉刷新)：{{ info.workQueue }}</view>
-    </view>
-  </view>
+  <!-- 引入头组件 -->
+  <header 
+    title="课程列表" 
+    messageStyle="{{ info.workThread < info.corePoolSize ? 'background-color:#1aad19' : 'background-color:#cbcbcb'}}"
+    message="{{ info.workThread < info.corePoolSize ? '当前空闲通道(下拉刷新)：' + (info.corePoolSize - info.workThread) : '当前排队人数(下拉刷新)：' + (info.workQueue) }}"></header>
 
   <!-- 选项卡 -->
   <view class="options">
     <view class="{{select == 1 ? 'selected' : ''}}" data-id="1" bindtap="changeTab">未完成</view>
     <view class="{{select == 2 ? 'selected' : ''}}" data-id="2" bindtap="changeTab">已完成</view>
+    <view class=""><navigator url="../works/works">作业</navigator></view>
   </view>
   <swiper class="swiper" bindchange="swiperChangeTab" current="{{ select - 1 }}">
     <swiper-item wx:for="{{ courseStatus }}" wx:key="status" wx:for-index="statusIndex">
@@ -30,7 +20,7 @@
           <button type="primary" bindtap="refresh">刷新</button>
           <view>如若不行请退出重新登陆</view>
         </view>
-        <view class="courses {{ item.process == 100 ? 'flag' : '' }}" wx:for="{{ courses }}" wx:key="item" wx:if="{{ (statusIndex == 0 && item.process < 100) ||   (statusIndex == 1 && item.process == 100) }}">
+        <view class="courses border-fillet {{ item.process == 100 ? 'flag' : '' }}" wx:for="{{ courses }}" wx:key="item" wx:if="{{ (statusIndex == 0 && item.process < 100) ||   (statusIndex == 1 && item.process == 100) }}">
           <view class="icon">
             <image src="{{ item.thumbnail }}" mode="widthFix"></image>
           </view>

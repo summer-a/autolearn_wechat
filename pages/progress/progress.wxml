@@ -1,26 +1,14 @@
 <!--pages/progress/progress.wxml-->
 <view class="container">
 
-  <!-- 背景 -->
-  <image class="login-bg" src="../../res/img/login_bg.jpg" ></image>
-  <!-- 标题信息 -->
-  <view class="top-navigate" style="margin-top: {{buttonInfo == null ? 26 : buttonInfo.top}}px; height: {{buttonInfo == null ? 32 : buttonInfo.height}}px">
-    <button class="logout" style="height: {{buttonInfo == null ? 32 : buttonInfo.height}}px;line-height: {{buttonInfo == null ? 32 : buttonInfo.height}}px" bindtap="logout">退出</button>
-    <view class="title-text">课程进度</view>
-  </view>
-
   <!-- 头信息 -->
-  <view class="infomation">
-    <view class="notice">公告: {{ notice == null ? '暂无公告' : notice }} </view>
-    <view class="message-info">
-      <view class="title" wx:if="{{ currCourse.state == 'START' }}" style="background-color:#1aad19;">任务运行中</view>
-      <view class="title" wx:if="{{ currCourse.state == 'QUEUE' }}" style="background-color:#3385ff;">排队中...</view>
-      <view class="title" wx:if="{{ currCourse.state == 'STOP' }}" style="background-color:#3385ff;">已停止</view>
-    </view>
-  </view>
+  <header 
+    title="课程进度" 
+    messageStyle="{{ currCourse.state == 'START' ? 'background-color:#1aad19' : 'background-color:#3385ff' }}"
+    message="{{ currCourse.state == 'START' ? '任务运行中' : currCourse.state == 'QUEUE' ? '排队中...' : '已停止'}}"></header>
 
   <!-- 课程信息 -->
-  <view class="cousre-info" wx:if="{{ course != null }}">
+  <view class="course-info border-fillet" wx:if="{{ course != null }}">
     <view class="thumbnail">
       <image src="{{ course.thumbnail }}" mode="widthFix"></image>
     </view>
@@ -29,12 +17,12 @@
       <view class="text">教师：{{ course.assistTeacherName }}</view>
       <view class="text">进度：{{ course.process == undefined ? '' : (course.process + '%')}}</view>
       <view class="text">学期：{{ course.termName }}</view>
-      <view class="text">课件：{{ currCourse.courseCount }} 个</view>
+      <view class="text">课件：{{ currCourse.courseCount == null ? '?' : currCourse.courseCount }} 个</view>
     </view>
   </view>
 
   <!-- 进度信息 -->
-  <view class="progress-info" wx:if="{{ course != null }}">
+  <view class="progress-info border-fillet" wx:if="{{ course != null }}">
     <view class="now-course">
       <view class="progress-group">
         <view class="course-name">当前>={{ currCourse.course.categoryName }}：{{ currCourse.course.cellName == null ? '准备中...' : currCourse.course.cellName }} </view>

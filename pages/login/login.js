@@ -134,14 +134,21 @@ Page({
         title: '用户名和密码不能为空',
         icon: 'none',
       })
+    } else if(form.verifyCode == "" || form.verifyCode.length < 4) {
+      wx.showToast({
+        title: '验证码有误',
+        icon: 'none',
+      })
     } else {
       wx.showLoading({
         title: '登录中……',
         mask: true
       })
 
+      let verifyCodeCookie = wx.getStorageSync('verifyCodeCookie')
+
       var that = this;
-      service.login(form.username, form.password).then(res => {
+      service.login(form.username, form.password, form.verifyCode, verifyCodeCookie).then(res => {
         console.log(res)
         
         wx.hideLoading()

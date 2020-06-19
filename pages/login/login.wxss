@@ -35,14 +35,9 @@
 }
 /** 表单 */
 .form{
-  z-index: 2;
-  border-radius: 20rpx;
-  box-shadow: 5rpx 5rpx 20rpx rgba(0,0,0,0.2);
   margin: 250rpx 0 0;
-  width: 95vw;
   height: 700rpx;
   background-color: #FFF;
-  position: relative;
 }
 /** 输入框 行样式 */
 .form .input-view{

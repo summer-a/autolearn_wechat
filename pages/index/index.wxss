@@ -4,67 +4,10 @@
   margin: 0;
   box-sizing: border-box;
 }
-.top-navigate {
-  display: flex;
-  align-items: center;
-}
-.top-navigate .logout{
-  position: absolute;
-  margin: 0 20rpx;
-  padding: 0;
-  width: 100rpx;
-  font-size: 28rpx;
-  font-weight: 400;
-  color: #FFF;
-  background-image: linear-gradient(to right, #ff8d41 , #fda240);
-}
-.top-navigate .title-text{
-  width: 100%;
-  text-align: center;
-  font-weight: 600;
-  color: #FFF;
-  font-size: 28rpx;
-}
-/** 背景 */
-.login-bg{
-  z-index: -1;
-  height: 250rpx;
-  position: absolute;
-  width: 100%;
-  opacity: 0.8;
-  top: 0;
-  left: 0;
-}
-/** 信息面板 */
-.infomation{
-  z-index: 100;
-  width: 95vw;
-  height: 13vh;
-  margin: 30rpx auto;
-  border-radius: 20rpx;
-  box-shadow: 5rpx 5rpx 20rpx rgba(0,0,0,0.2);
-  background-color: #FFF;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  padding: 30rpx 0;
-  box-sizing: border-box;
-}
-.infomation view{
-  text-align: center;
-}
 .courses{
-  width: 95%;
   height: 200rpx;
-  margin: 20rpx auto;
-  position: relative;
   display: flex;
   justify-content: space-between;
-  z-index: 2;
-
-  border-radius: 20rpx;
-  box-shadow: 5rpx 5rpx 20rpx rgba(0,0,0,0.2);
 }
 .icon{
   width: 200rpx;
@@ -101,15 +44,7 @@
   font-size: 23rpx;
   font-family: '微软雅黑';
 }
-.message-info{
-  width: 100%;
-}
-.message-info view{
-  width:100%;
-  font-size: 30rpx;
-  text-align: center;
-  color: #FFF;
-}
+
 
 .qq {
   font-size: 25rpx;
@@ -120,11 +55,7 @@
   bottom: 10rpx;
   background-color: #FFF;
 }
-.notice{
-  position: relative;
-  margin-bottom: 30rpx;
-  color: #3b4594;
-}
+
 
 .options {
   display: flex;

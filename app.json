@@ -2,7 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/login/login",
-    "pages/progress/progress"
+    "pages/progress/progress",
+    "pages/works/works",
+    "pages/work/work"
   ],
   "window": {
     "navigationStyle": "custom",
@@ -11,7 +13,6 @@
     "navigationBarTitleText": "职教云自动学习平台",
     "navigationBarTextStyle": "black"
   },
-  
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

@@ -1,0 +1,48 @@
+<!-- 头信息 -->
+<wxs src="../../utils/util.wxs" module="util"/>
+<header title="作业详情" messageStyle="color: red" message="答案来自互联网, 不保证有答案和正确性, 建议搜索后手动检查"/>
+<view class="operate">
+  <button type="primary" bindtap="searchAnswer">搜索答案</button>
+</view>
+<scroll-view class="body">
+  <form bindsubmit="submit">
+  <view class="questions border-fillet" wx:for="{{ questions }}" wx:key="q" wx:for-item="q" wx:for-index="qindex">
+
+    <view class="type">{{ q.queTypeName }}({{ q.totalScore }}分)<view>{{ qindex + 1 }} / {{ questions.length }}</view></view>
+    <view class="title">{{ util.regexUtil(q.Title) }}</view>
+    <!-- 单选和多选 -->
+    <view class="answers" wx:if="{{ q.questionType == 1 || q.questionType == 2 }}">
+      <view wx:for="{{ q.answerList }}" wx:key="a" wx:for-item="a" wx:for-index="aindex"
+      bindtap="selectAnswer"
+      class="answer {{checked[qindex][aindex] == true ? 'checked' : '' }}" 
+      data-index="{{ [q.questionType, qindex, aindex] }}">
+        {{ util.regexUtil(a.Content) }}
+      </view>
+    </view>
+    <!-- 判断题 -->
+    <view class="answers" wx:if="{{ q.questionType == 3 }}">
+      <view wx:for="{{ q.answerList != null && q.answerList != '' ? q.answerList : [0, 1] }}" wx:key="a" wx:for-item="a" wx:for-index="aindex"
+        bindtap="selectAnswer"
+        class="answer {{checked[qindex][aindex] == true ? 'checked' : '' }}" 
+        data-index="{{ [q.questionType, qindex, aindex] }}">
+          {{ a == 1 ? '对' : '错' }}
+      </view>
+    </view>
+    <!-- 填空类题 -->
+    <view class="answers" wx:if="{{ q.questionType == 4 || q.questionType == 5 || q.questionType == 6 || q.questionType == 8 || q.questionType == 9 }}">
+      <!-- 填空位置 -->
+      <view class="answer-input" wx:if="{{ q.questionType == 4 || q.questionType == 5 }}">
+        <input wx:for="{{ q.answerList }}" wx:key="item" data-sort="{{ item.SortOrder }}" placeholder="{{ '填空:' + (index + 1) }}" value="{{ util.isValidAnswer(q.netAnswer[index]) ? q.netAnswer[index] : '' }}" bindblur="blurInput" data-index="{{ [qindex, index ] }}"></input>
+      </view>
+      <!-- 问答题类 -->
+      <textarea bindblur="blurText" data-index="{{ qindex }}" class="answer-text" value="{{ util.isValidAnswer(q.netAnswer) ? q.netAnswer : '' }}" wx:if="{{ q.questionType != 4 && q.questionType != 5 }}" >
+        
+      </textarea>
+    </view>
+    <view class="answers" wx:if="{{ q.netAnswer != null && q.netAnswer != 'undefined' }}">
+      <view class="netAnswer">{{ '参考答案: ' + q.netAnswer }}</view>
+    </view>
+  </view>
+  <button class="submitButton" form-type="submit" type="primary">提交</button>
+  </form>
+</scroll-view>

@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "header": "../../component/header/header"
+  },
   "enablePullDownRefresh": true
 }

@@ -1,0 +1,72 @@
+/* pages/work/works.wxss */
+.container{
+  width: 100vw;
+  margin: 0;
+  box-sizing: border-box;
+}
+.works{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.workTitle{
+  height: 80rpx;
+  line-height: 80rpx;
+  vertical-align: middle;
+  font-size: 34rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  /* border-bottom: 1px solid #99CCFF; */
+  font-weight: bold;
+  color: #3399CC;
+  box-shadow: 3rpx 3rpx 10rpx rgba(0,0,0,0.1);
+}
+.workList {
+  
+}
+
+.workObj{
+  box-sizing: border-box;
+  margin: 20rpx;
+  font-size: 30rpx;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  position: relative;
+  border: 1px solid #CCFFFF;
+}
+.workInfo {
+  width: 80%;
+}
+.workTitle2{
+  font-size: 34rpx;
+  border: 0;
+  box-shadow: none;
+  color: #3399CC;
+}
+.workInfo view {
+  margin: 10rpx 20rpx;
+}
+.workOperate{
+  width: 20%;
+
+  position: relative;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.workOperate button {
+  width: 90%!important;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
+  font-weight: 300;
+  padding: 0;
+  margin: 0 20rpx;
+  
+  position: absolute;
+}

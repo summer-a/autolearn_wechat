@@ -12,8 +12,8 @@ class api{
   }
 
   // 登录
-  login(username, password) {
-    let data = { username: username, password: password }
+  login(username, password, verifyCode, verifyCodeCookie) {
+    let data = { username: username, password: password, verifyCode:verifyCode, verifyCodeCookie:verifyCodeCookie }
     let header = { 'content-type': 'application/x-www-form-urlencoded' }
     return this._http.postRequest(host.host + 'login', data, header).then(res => res.data)
   }
@@ -31,7 +31,7 @@ class api{
 
   // 获取线程池信息
   getThreadPoolState() {
-    return this._http.getRequest(host.host + '/threadpool/info').then(res => res.data)
+    return this._http.getRequest(host.host + 'threadpool/info').then(res => res.data)
   }
 
   // 课程列表
@@ -68,6 +68,31 @@ class api{
   notice() {
     // 通知服务器默认2
     return this._http.getRequest(host.host2 + 'msg', {}).then(res => res.data)
+  }
+
+  // 获取作业列表
+  works(unprocessed, cookie) {
+    let data = {unprocessed: unprocessed, cookie: cookie}
+    return this._http.getRequest(host.host + 'listWork', data).then(res => res.data)
+  }
+
+  // 获取作业详情
+  work(cookie, courseOpenId, openClassId, homeWorkId, activityId=null, hkTermTimeId, faceType=null) {
+    let data = {cookie: cookie, courseOpenId: courseOpenId, openClassId: openClassId, homeWorkId: homeWorkId, activityId: activityId, hkTermTimeId: hkTermTimeId, faceType: faceType}
+    return this._http.getRequest(host.host + 'getWork', data).then(res => res.data)
+  }
+
+  // 搜索答案
+  searchAnswer(q) {
+    let data = {q: q}
+    return this._http.getRequest(host.host + 'answer', data).then(res => res.data)
+  }
+
+  // 提交作业
+  submitWork(cookie, data) {
+    data.cookie = cookie
+    console.log(data)
+    return this._http.postRequest(host.host + 'submitWork', data).then(res => res.data)
   }
 
   // 自定义请求

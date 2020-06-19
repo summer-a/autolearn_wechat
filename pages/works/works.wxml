@@ -1,0 +1,29 @@
+<!--pages/work/works.wxml-->
+<wxs src="../../utils/util.wxs" module="dateUtil"/>
+<view class="container">
+  <!-- 头信息 -->
+  <header 
+    title="作业列表"
+    messageStyle="color: red"
+    message="作业功能还处于测试阶段"></header>
+
+  <!-- 作业列表 -->
+  <view class="works border-fillet" wx:for="{{ works }}" wx:key="item">
+    <view class="workTitle" data-index="{{ index }}" bindtap="showLabel">
+      <text>{{ item.courseName }}</text>
+      <!-- <view>一键完成</view> -->
+    </view>
+    <view class="workList border-fillet" hidden="{{ showWork != index }}">
+      <view class="workObj border-fillet" wx:for="{{ item.homeworkList }}" wx:key="item" wx:for-item="work" wx:for-index="hwindex">
+        <view class="workInfo">
+          <view class="workTitle2">{{work.Title}}  -  {{ work.getScore }}分</view>
+          <view>状态：{{ work.dataState == 1 ? '未开始' : work.dataState == 2 ? '进行中' : (work.dataState == 3 && work.isLateSubmit == 0) ? '已结束' : '已迟交' }}</view>
+          <view>时间：{{ dateUtil.dateUtil(work.stuStartTime) }} - {{ dateUtil.dateUtil(work.stuEndTime) }} </view>
+        </view>
+        <view class="workOperate">
+          <button class="workOperate" data-cindex="{{ index }}" data-windex="{{ hwindex }}" bindtap="doWork" wx:if="{{work.dataState == 1 || work.dataState == 2  && work.homeworkType == 1}}" type="primary">作业</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
