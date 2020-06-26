@@ -34,13 +34,13 @@ Component({
    */
   lifetimes: {
     attached: function () {
-      console.log("attached")
+      console.log("header attached")
     },
     moved: function () { 
-      console.log("moved")
+      console.log("header moved")
     },
     detached: function () { 
-      console.log("detached")
+      console.log("header detached")
     },
   },
 

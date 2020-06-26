@@ -30,7 +30,7 @@
             <view><progress style="width:100%;height:30rpx;" percent="{{ item.process }}"  active active-mode="forwards" ></progress></view>
           </view>
           <view class="operate">
-            <button bindtap="begin" type="{{ (item.process == 100) ? 'default' : 'primary' }}" data-course-id="{{ item.courseOpenId }}" data-class-id="{{ item.openClassId }}" data-item-id="{{ item.id }}" data-type="{{ (item.process == 100) ? 'add' : 'begin' }}" disabled="{{ disableBursh }}">{{ (item.process == 100) ? '加时' : '开始' }}</button>
+            <button bindtap="begin" type="{{ (item.process == 100) ? 'default' : 'primary' }}" data-course-id="{{ item.courseOpenId }}" data-class-id="{{ item.openClassId }}" data-item-id="{{ item.id }}" data-type="{{ (item.process == 100) ? 'add' : 'begin' }}" data-unlocked="{{ item.unlocked }}" disabled="{{ disableBursh }}">{{ item.unlocked == true ? ((item.process == 100) ? '加时' : '开始') : '解锁' }}</button>
           </view>
         </view>
       </scroll-view>

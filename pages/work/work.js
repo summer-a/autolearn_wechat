@@ -18,10 +18,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
-    // options = {
-    //   "data": '{"stuEndTime":"/Date(1593820800000)/","paperType":2,"homeworkType":1,"Title":"标准作业3","dataState":2,"courseOpenId":"ibywaqqrzflchdyhbnolq","openClassId":"rckwaqql7rgnc5jby58ca","hkTermTimeId":"1uc8ahsrky9dwitngb1wcg","Remark":"独立完成作业","homeworkId":"qoivaggrjkbfeggc5mcknw","replyCount":"1","stuHomeworkId":"","stuHomeworkCount":0,"State":0,"ztWay":4,"isLateSubmit":0,"IsDisplayAnswer":1,"getScore":0,"stuStartTime":"/Date(1583280000000)/"}'
-    // }
 
     let work = null;
     if (options == undefined || options == null || options == '') {
@@ -230,7 +226,14 @@ Page({
     }
   },
   searchAnswer: function() {
-    this.searchAnswerFun(0, this.data.questions.length)
+    try {
+      this.searchAnswerFun(0, this.data.questions.length)
+    } catch (err) {
+      wx.showToast({
+        title: '获取作业失败，请刷新重试' + err,
+        icon: 'none'
+      })
+    }
   },
   searchAnswerFun: function (index, len){
     if (index === len) {
@@ -357,6 +360,13 @@ Page({
   submit: function() {
       // 封装
       let p = this.data.param.param
+      if (!p) {
+        wx.showToast({
+          title: '参数为空，请刷新重试',
+          icon: 'none'
+        })
+        return ;
+      }
       let data = {
         uniqueId: p.uniqueId,
         homeworkId: p.homeworkId,

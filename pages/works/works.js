@@ -28,13 +28,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    console.log('works show')
     let cookie = wx.getStorageSync('user').cookie
     if (cookie != undefined && cookie != '') {
       let type = 0;
       service.works(type, cookie).then(res => {
         if (res.code == 1) {
-          res.list.map(res => res +":::")
-          console.log(res.list)
           this.setData({
             works: res.list
           })
@@ -48,6 +47,9 @@ Page({
         console.log(err)
       })
     }
+    wx.stopPullDownRefresh({
+      complete: (res) => {},
+    })
   },
 
   /**
@@ -68,7 +70,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.onShow()
   },
 
   /**

@@ -1,6 +1,7 @@
 /* pages/work/work.wxss */
 .body {
   height: 100%;
+  padding-bottom: 35rpx;
 }
 .title {
   width: 100%;
@@ -89,7 +90,7 @@
   background-color: #f4f2fe;
 }
 .submitButton{
-  margin: 30rpx auto 40rpx;
+  margin: 30rpx auto;
   font-size: 30rpx;
 }
 .operate button {
