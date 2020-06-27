@@ -17,6 +17,7 @@ Page({
     currentUnlockedCourse: null
   },
   onLoad: function(options) {
+
     console.log('load')
     // 服务器切换
     let server = wx.getStorageSync('serverNo')
@@ -82,7 +83,7 @@ Page({
   onShareAppMessage: function() {
 
   },
-  onShow: function() {
+  onShow: function(forceRefresh) {
     console.log("index onShow")
     wx.showLoading({
       title: '更新数据...',
@@ -107,6 +108,7 @@ Page({
         } else {
           service.getThreadPoolState().then(res => {
             if (res) {
+              console.log(res)
               that.setData({
                 info: res
               })
@@ -114,7 +116,8 @@ Page({
           })
           
           // 获取课程列表
-          service.listCourse(user.user, user.cookie).then(res => {
+          // forceRefresh是否强制刷新
+          service.listCourse(user.user, user.cookie, forceRefresh).then(res => {
 
             wx.hideLoading()
             wx.stopPullDownRefresh()
@@ -158,20 +161,15 @@ Page({
   begin: function(e) {
 
     var dataset = e.currentTarget.dataset;
-
-    if (dataset.type == 'add') {
-      wx.showModal({
-        title: '该功能暂不支持',
-      })
-      return;
-    }
+    
+    app.globalData.brush = dataset.type == 'add' ? false : true
 
     if (dataset.unlocked && dataset.unlocked === true) {
       
       var user = this.user;
       var that = this;
       if (user && user != null && user.cookie && user.cookie != null) {
-        service.start(user.user, user.cookie, dataset.itemId, dataset.courseId, dataset.classId).then(res => {
+        service.start(user.user, user.cookie, dataset.itemId, dataset.courseId, dataset.classId, dataset.type).then(res => {
           // 判断请求是否被拒绝
           if (res.code === 403) {
             wx.showToast({
@@ -214,7 +212,7 @@ Page({
     }
   },
   onPullDownRefresh: function() {
-    this.onShow()
+    this.onShow(true)
   },
   changeTab: function(e) {
     this.setData({

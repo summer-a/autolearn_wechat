@@ -48,6 +48,8 @@ App({
     qq: 994580946,
     notice: '通知区域',
     buttonInfo: null,
-    loding: false
+    loding: false,
+    // true为刷课，false加时
+    brush: true
   }
 })

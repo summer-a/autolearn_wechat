@@ -35,19 +35,20 @@ class api{
   }
 
   // 课程列表
-  listCourse(user, cookie) {
-    let data = { user: user, cookie: cookie}
+  listCourse(user, cookie, forceRefresh=false) {
+    let data = { user: user, cookie: cookie, forceRefresh: forceRefresh && forceRefresh == true ? true : false}
     return this._http.getRequest(host.host + 'course/list', data).then(res => res.data)
   }
 
   // 开始任务
-  start(user, cookie, courseId, courseOpenId, openClassId) {
+  start(user, cookie, courseId, courseOpenId, openClassId, type) {
     let data = {
       user: user,
       cookie: cookie,
       courseId: courseId,
       courseOpenId: courseOpenId,
-      openClassId: openClassId
+      openClassId: openClassId,
+      overTime: type == 'add' ? true : false
     }
     return this._http.getRequest(host.host + 'start', data).then(res => res.data)
   }

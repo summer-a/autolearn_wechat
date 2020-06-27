@@ -114,3 +114,11 @@
   font-size: 25rpx;
   text-align: center;
 }
+
+/** 两种解锁状态 */
+.unlocked {
+  background-color: #75c82b!important;
+}
+.locked {
+  background-color: #4990ee!important;
+}

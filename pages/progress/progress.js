@@ -65,7 +65,7 @@ Page({
     // 循环获取
     that.flashStateInterval = setInterval(() => {
       that.req();
-    }, 10 * 1000)
+    }, 5 * 1000)
   },
 
   /**
@@ -170,7 +170,7 @@ Page({
           }
           wx.stopPullDownRefresh()
 
-          if (res && res.process == 100) {
+          if (res && res.process == 100 && app.globalData.brush == true) {
             wx.showToast({
               title: '刷课完成',
               icon: 'success',

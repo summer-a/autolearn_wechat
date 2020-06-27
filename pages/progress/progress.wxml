@@ -4,8 +4,8 @@
   <!-- 头信息 -->
   <header 
     title="课程进度" 
-    messageStyle="{{ currCourse.state == 'START' ? 'background-color:#1aad19' : 'background-color:#3385ff' }}"
-    message="{{ currCourse.state == 'START' ? '任务运行中' : currCourse.state == 'QUEUE' ? '排队中...' : '已停止'}}"></header>
+    messageStyle="{{ currCourse.state == 'START' ? 'background-color:#1aad19' : currCourse.state == 'ADD' ? 'background-color:#4990ee' : 'background-color:#3385ff' }}"
+    message="{{ currCourse.state == 'START' ? '刷课任务运行中' : currCourse.state == 'QUEUE' ? '排队中...' : currCourse.state == 'ADD' ? '加时任务运行中' : '已停止'}}"></header>
 
   <!-- 课程信息 -->
   <view class="course-info border-fillet" wx:if="{{ course != null }}">
@@ -29,13 +29,18 @@
         <progress class="curr-course-percent" percent="{{ currCourse.percent }}" active active-mode="forwards" stroke-width="8" activeColor="#1E90FF" border-radius="3"></progress>
       </view>
       <view class="progress-group">
-        <view class="all-percent-text">总进度</view>
-        <progress percent="{{ course.process }}" active active-mode="forwards" stroke-width="20" border-radius="5"></progress>
+        <view class="all-percent-text">{{ currCourse.state == 'ADD' ? '正在加时中，没有进度是正常的' : '总进度' }}</view>
+        <progress hidden="{{ currCourse.state == 'ADD' }}" percent="{{ course.process }}" active active-mode="forwards" stroke-width="20" border-radius="5"></progress>
       </view>
     </view>
     <view class="operate">
       <button bindtap="cancel" type="warn">取消任务</button>
     </view>
+  </view>
+  <view class="notice-footer border-fillet">
+    <text>任务开始后无需守着小程序，关闭软件都没问题</text>
+    <text>刚进入页面可能需要稍等才显示进度，正常现象</text>
+    <!-- <text>加时功能默认10小时，随时可以手动取消</text> -->
   </view>
   <!-- 页脚 -->
   <footer/>

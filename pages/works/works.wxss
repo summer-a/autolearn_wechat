@@ -3,6 +3,7 @@
   width: 100vw;
   margin: 0;
   box-sizing: border-box;
+  padding-bottom: 35rpx;
 }
 .works{
   display: flex;
@@ -20,9 +21,6 @@
   font-weight: bold;
   color: #3399CC;
   box-shadow: 3rpx 3rpx 10rpx rgba(0,0,0,0.1);
-}
-.workList {
-  
 }
 
 .workObj{

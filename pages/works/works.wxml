@@ -5,13 +5,12 @@
   <header 
     title="作业列表"
     messageStyle="color: red"
-    message="作业功能还处于测试阶段,仅支持题库作业(选择,判断,问答和填空类型)"></header>
+    message="作业功能仅支持题库作业(选择,判断,问答和填空类型)"></header>
 
   <!-- 作业列表 -->
   <view class="works border-fillet" wx:for="{{ works }}" wx:key="item">
     <view class="workTitle" data-index="{{ index }}" bindtap="showLabel">
       <text>{{ item.courseName }}</text>
-      <!-- <view>一键完成</view> -->
     </view>
     <view class="workList border-fillet" hidden="{{ showWork != index }}">
       <view class="workObj border-fillet" wx:for="{{ item.homeworkList }}" wx:key="item" wx:for-item="work" wx:for-index="hwindex">

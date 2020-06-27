@@ -145,3 +145,13 @@
   height: 420rpx;
   margin: 40rpx auto;
 }
+.notice-footer{
+  display: flex;
+  flex-direction: column;
+  font-size: 30rpx;
+
+}
+.notice-footer text{
+  margin: 6rpx 15rpx;
+  color: #333;
+}
