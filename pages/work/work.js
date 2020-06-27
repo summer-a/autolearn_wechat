@@ -367,55 +367,56 @@ Page({
       success: res => {
         if (res.cancel) {
           return
+        } else if (res.confirm) {
+          // 封装
+          let param = this.data.param
+          if (!param || !param.param) {
+            wx.showToast({
+              title: '参数为空，请刷新重试',
+              icon: 'none'
+            })
+            return;
+          }
+          let p = param.param
+          let data = {
+            uniqueId: p.uniqueId,
+            homeworkId: p.homeworkId,
+            openClassId: p.openClassId,
+            homeworkTermTimeId: p.hkTermTimeId,
+            sourceType: 1,
+            isDraft: 0,
+            useTime: parseInt(Math.random() * 10000),
+            timestamp: new Date().getTime(),
+            data: JSON.stringify(this.data.submitData)
+          }
+
+          console.log(data)
+          let cookie = wx.getStorageSync('user').cookie
+          if (cookie != null && cookie != '') {
+            service.submitWork(cookie, data).then(res => {
+              if (res) {
+                wx.showToast({
+                  title: '提交成功',
+                })
+
+                setTimeout(function () {
+                  wx.hideToast()
+                  wx.redirectTo({
+                    url: '../index/index',
+                  })
+                }, 1500)
+              }
+            }).catch(res => {
+              wx.showToast({
+                title: '提交失败',
+                icon: 'none'
+              })
+            })
+          }
         }
-      },fail: err => {
+      }, fail: err => {
         return
       }
     })
-
-    // 封装
-    let p = this.data.param.param
-    if (!p) {
-      wx.showToast({
-        title: '参数为空，请刷新重试',
-        icon: 'none'
-      })
-      return;
-    }
-    let data = {
-      uniqueId: p.uniqueId,
-      homeworkId: p.homeworkId,
-      openClassId: p.openClassId,
-      homeworkTermTimeId: p.hkTermTimeId,
-      sourceType: 1,
-      isDraft: 0,
-      useTime: parseInt(Math.random() * 10000),
-      timestamp: new Date().getTime(),
-      data: JSON.stringify(this.data.submitData)
-    }
-
-    console.log(data)
-    let cookie = wx.getStorageSync('user').cookie
-    if (cookie != null && cookie != '') {
-      service.submitWork(cookie, data).then(res => {
-        if (res) {
-          wx.showToast({
-            title: '提交成功',
-          })
-
-          setTimeout(function () {
-            wx.hideToast()
-            wx.redirectTo({
-              url: '../index/index',
-            })
-          }, 1500)
-        }
-      }).catch(res => {
-        wx.showToast({
-          title: '提交失败',
-          icon: 'none'
-        })
-      })
-    }
   }
 })

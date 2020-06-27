@@ -5,7 +5,7 @@
   <header 
     title="课程列表" 
     messageStyle="{{ info.workThread < info.corePoolSize ? 'background-color:#1aad19' : 'background-color:#cbcbcb'}}"
-    message="{{ info.workThread < info.corePoolSize ? '当前空闲通道(下拉刷新)：空' + (info.corePoolSize - info.workThread) + '/共' + (info.corePoolSize) : '当前排队人数(下拉刷新)：' + (info.workQueue) }}"></header>
+    message="{{ user ? (info.workThread < info.corePoolSize ? '当前空闲通道(下拉刷新)：空' + (info.corePoolSize - info.workThread) + '/共' + (info.corePoolSize) : '当前排队人数(下拉刷新)：' + (info.workQueue)) : '请先登录' }}"></header>
 
   <!-- 选项卡 -->
   <view class="options">
@@ -16,10 +16,21 @@
   <swiper class="swiper" bindchange="swiperChangeTab" current="{{ select - 1 }}">
     <swiper-item wx:for="{{ courseStatus }}" wx:key="status" wx:for-index="statusIndex">
       <scroll-view class="scroll-item" scroll-y>
-        <view class="refresh" wx:if="{{ item == null }}">
-          <button type="primary" bindtap="refresh">刷新</button>
-          <view>如若不行请退出重新登陆</view>
+        <!-- 未登录 -->
+        <view class="courses border-fillet {{ item.process == 100 ? 'flag' : '' }}" wx:if="{{ user == null || user == '' }}">
+          <view class="icon">
+            <image src="../../res/img/course_demo.png" mode="widthFix"></image>
+          </view>
+          <view class="body">
+            <view>课程名</view>
+            <view>老师: x老师</view>
+            <view><progress style="width:100%;height:30rpx;" percent="70"  active active-mode="forwards" ></progress></view>
+          </view>
+          <view class="operate">
+            <button bindtap="login" type="primary"><navigator url="../login/login">登录</navigator></button>
+          </view>
         </view>
+        <!-- 已登录 -->
         <view class="courses border-fillet {{ item.process == 100 ? 'flag' : '' }}" wx:for="{{ courses }}" wx:key="item" wx:if="{{ (statusIndex == 0 && item.process < 100) ||   (statusIndex == 1 && item.process == 100) }}">
           <view class="icon">
             <image src="{{ item.thumbnail }}" mode="widthFix"></image>

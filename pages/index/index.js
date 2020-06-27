@@ -85,19 +85,22 @@ Page({
   },
   onShow: function(forceRefresh) {
     console.log("index onShow")
-    wx.showLoading({
-      title: '更新数据...',
-    })
 
     var that = this;
+    // 获取登录状态并存储
     var user = wx.getStorageSync('user')
-    this.user = user;
+    this.setData({
+      user: user
+    })
     if (user == null || user == "" || user.cookie == "") {
       wx.stopPullDownRefresh()
-      wx.redirectTo({
-        url: '../login/login',
-      })
+      // wx.redirectTo({
+      //   url: '../login/login',
+      // })
     } else {
+      wx.showLoading({
+        title: '更新数据...',
+      })
       // 判断是否已经有任务在进行
       service.taskState(user.user.userId).then(res => {
         if (res != null && res != "") {
@@ -166,7 +169,8 @@ Page({
 
     if (dataset.unlocked && dataset.unlocked === true) {
       
-      var user = this.user;
+      var user = this.data.user;
+      console.log(user)
       var that = this;
       if (user && user != null && user.cookie && user.cookie != null) {
         service.start(user.user, user.cookie, dataset.itemId, dataset.courseId, dataset.classId, dataset.type).then(res => {
@@ -224,7 +228,9 @@ Page({
       select: e.detail.current + 1
     })
   },
-  refresh: function() {
-    this.onShow();
+  login: function() {
+    wx.redirectTo({
+      url: '../login/login',
+    })
   }
 })

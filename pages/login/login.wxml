@@ -5,7 +5,7 @@
   </view>
   <form catchsubmit="formSubmit" class="form border-fillet">
     <view class="notice"> 公告: {{ notice }} </view>
-    <view class="title">请使用职教云账号登录</view>
+    <view class="title">此小程序提供职教云学习功能,使用职教云账号登录</view>
     <view class="input-view">
       <text class="text">账号</text>
       <input class="username" name="username" placeholder="请输入账号" type="text" maxlength="15" value="{{ account }}" placeholder-class="gray-color"></input>

@@ -26,7 +26,8 @@ Component({
   data: {
     qq: 0,
     buttonInfo: null,
-    notice: null
+    notice: null,
+    user: null
   },
 
   /**
@@ -50,9 +51,11 @@ Component({
   pageLifetimes: {
     show: function () {
       console.log("组件所在页面 显示")
+      let user = wx.getStorageSync('user')
       this.setData({
         qq: app.globalData.qq,
-        buttonInfo: app.globalData.buttonInfo
+        buttonInfo: app.globalData.buttonInfo,
+        user
       })
       // 更新通知
       service.notice().then(res => {

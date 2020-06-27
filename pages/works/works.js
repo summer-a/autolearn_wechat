@@ -8,7 +8,8 @@ Page({
    */
   data: {
     works: [],
-    showWork: 0
+    showWork: 0,
+    user: null
   },
 
   /**
@@ -29,7 +30,11 @@ Page({
    */
   onShow: function () {
     console.log('works show')
-    let cookie = wx.getStorageSync('user').cookie
+    let user = wx.getStorageSync('user')
+    this.setData({
+      user
+    })
+    let cookie = user.cookie
     if (cookie != undefined && cookie != '') {
       let type = 0;
       service.works(type, cookie).then(res => {

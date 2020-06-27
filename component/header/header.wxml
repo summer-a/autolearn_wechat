@@ -2,7 +2,7 @@
 <image class="login-bg" src="../../res/img/login_bg.jpg" ></image>
 <!-- 标题信息 -->
 <view class="top-navigate" style="margin-top: {{buttonInfo == null ? 26 : buttonInfo.top}}px; height: {{buttonInfo == null ? 32 : buttonInfo.height}}px">
-  <button class="logout" style="height: {{buttonInfo == null ? 32 : buttonInfo.height}}px;line-height: {{buttonInfo == null ? 32 : buttonInfo.height}}px" bindtap="logout">退出</button>
+  <button class="logout" style="height: {{buttonInfo == null ? 32 : buttonInfo.height}}px;line-height: {{buttonInfo == null ? 32 : buttonInfo.height}}px" bindtap="logout">{{ user ? '退出' : '登录' }}</button>
   <view class="title-text">{{ title }}</view>
 </view>
 
