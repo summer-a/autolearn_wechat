@@ -206,6 +206,10 @@ Page({
                 videoAd.load()
                   .then(() => videoAd.show())
                   .catch(err => {
+                    wx.showToast({
+                      title: '广告加载失败，如多次失败，请第二天重试',
+                      icon: 'none'
+                    })
                     console.log('激励视频 广告显示失败')
                   })
               })
